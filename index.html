@@ -8,7 +8,7 @@
 </head>
 <body>
     <div class="container">
-        <!-- Welcome Screen (Gemini Style) -->
+        <!-- Welcome Screen -->
         <div id="welcomeScreen" class="welcome-screen">
             <div class="welcome-content">
                 <h1 class="title">Welcome to CivicAssist</h1>
@@ -31,9 +31,15 @@
         <!-- Chat Interface (Hidden initially) -->
         <div id="chatScreen" class="chat-screen hidden">
             <div class="chat-header">
-                <span class="chat-icon">🗳️</span>
-                <span>CivicAssist</span>
-                <button id="backToWelcome" class="back-btn">← Back</button>
+                <div class="header-left">
+                    <span class="chat-icon">🗳️</span>
+                    <span class="chat-title">CivicAssist</span>
+                </div>
+                <div class="header-right">
+                    <button id="voiceBtn" class="voice-btn" title="Voice input">🎤</button>
+                    <button id="clearHistoryBtn" class="clear-btn" title="Clear chat history">🗑️</button>
+                    <button id="backToWelcome" class="back-btn">← Back</button>
+                </div>
             </div>
 
             <div class="chat-area" id="chatArea">
@@ -44,11 +50,11 @@
 
             <div class="input-area">
                 <input type="text" id="userInput" placeholder="Ask anything about elections..." onkeypress="handleKeyPress(event)">
-                <button onclick="sendMessage()">Send</button>
+                <button id="sendBtn" onclick="sendMessage()">Send</button>
             </div>
 
             <div class="feedback-link">
-                <a href="#" onclick="openFeedbackForm(); return false;">Give feedback</a>
+                <a href="#" onclick="openFeedbackForm(); return false;">📊 Give feedback</a>
             </div>
         </div>
     </div>
