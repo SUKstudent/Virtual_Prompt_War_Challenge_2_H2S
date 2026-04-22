@@ -8,42 +8,117 @@
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <h1>🗳️ CivicAssist <span>– Election Process Assistant</span></h1>
-            <p>Your beginner-friendly guide to understanding elections</p>
-        </div>
-
-        <div class="chat-area" id="chatArea">
-            <div class="message assistant-message">
-                <div class="bubble">
-                    👋 Hello! I'm CivicAssist, your election process assistant.<br><br>
-                    I can help you understand:<br>
-                    • What elections are<br>
-                    • Who is eligible to vote<br>
-                    • How voter registration works<br>
-                    • How voting is carried out<br>
-                    • Election timelines<br><br>
-                    To get started, please tell me:<br>
-                    📝 <strong>What's your age?</strong>
+        <!-- Welcome Screen -->
+        <div id="welcomeScreen" class="welcome-screen">
+            <div class="welcome-content">
+                <!-- Animated Title -->
+                <h1 class="animated-title">
+                    <span class="title-word">🗳️</span>
+                    <span class="title-word">Civic</span>
+                    <span class="title-word">Assist</span>
+                </h1>
+                
+                <!-- Robot / Chatbot with waving hand -->
+                <div class="robot-container">
+                    <div class="robot">
+                        <div class="robot-face">
+                            <div class="robot-eyes">
+                                <div class="robot-eye"></div>
+                                <div class="robot-eye"></div>
+                            </div>
+                            <div class="robot-mouth"></div>
+                        </div>
+                        <div class="robot-body"></div>
+                        <div class="robot-arm waving-arm">
+                            <div class="hand">👋</div>
+                        </div>
+                        <div class="robot-arm static-arm"></div>
+                    </div>
+                    
+                    <!-- Speech Bubble -->
+                    <div class="speech-bubble">
+                        <p>👋 Hello! I'm CivicBot!</p>
+                        <p class="small-text">Your election guide 🗳️</p>
+                        <div class="bubble-tail"></div>
+                    </div>
                 </div>
+                
+                <p class="description">I'll help you understand elections, voter eligibility, registration, and voting steps in a simple, interactive way.</p>
+                
+                <div class="features">
+                    <div class="feature">
+                        <span>📖</span>
+                        <span>What are elections?</span>
+                    </div>
+                    <div class="feature">
+                        <span>🪪</span>
+                        <span>Eligibility check</span>
+                    </div>
+                    <div class="feature">
+                        <span>📝</span>
+                        <span>Registration guide</span>
+                    </div>
+                    <div class="feature">
+                        <span>🗳️</span>
+                        <span>Voting process</span>
+                    </div>
+                    <div class="feature">
+                        <span>📅</span>
+                        <span>Election timeline</span>
+                    </div>
+                </div>
+
+                <button id="startBtn" class="start-btn">
+                    Start Learning 🚀
+                </button>
             </div>
         </div>
 
-        <div class="quick-actions" id="quickActions">
-            <button class="quick-btn" onclick="askQuestion('What are elections?')">❓ What are elections?</button>
-            <button class="quick-btn" onclick="askQuestion('How do I register to vote?')">📝 How to register?</button>
-            <button class="quick-btn" onclick="askQuestion('How does voting work?')">🗳️ Voting process</button>
-            <button class="quick-btn" onclick="askQuestion('Election timeline')">📅 Election timeline</button>
-            <button class="quick-btn" onclick="askQuestion('Am I eligible to vote?')">✅ Check eligibility</button>
-        </div>
+        <!-- Chat Interface (Hidden initially) -->
+        <div id="chatScreen" class="chat-screen hidden">
+            <div class="chat-header">
+                <div class="chat-header-info">
+                    <span class="chat-icon">🗳️</span>
+                    <div>
+                        <h3>CivicAssist</h3>
+                        <p>Online • Ready to help</p>
+                    </div>
+                </div>
+                <button id="backToWelcome" class="back-btn">← Back</button>
+            </div>
 
-        <div class="input-area">
-            <input type="text" id="userInput" placeholder="Ask me anything about elections..." onkeypress="handleKeyPress(event)">
-            <button onclick="sendMessage()">Send</button>
-        </div>
+            <div class="chat-area" id="chatArea">
+                <div class="message assistant-message">
+                    <div class="bubble">
+                        👋 Hello! I'm CivicAssist, your election process assistant.<br><br>
+                        I can help you understand:<br>
+                        • What elections are<br>
+                        • Who is eligible to vote<br>
+                        • How voter registration works<br>
+                        • How voting is carried out<br>
+                        • Election timelines<br><br>
+                        To get started, please tell me:<br>
+                        📝 <strong>What's your age?</strong>
+                    </div>
+                </div>
+            </div>
 
-        <div class="feedback-link">
-            📊 Help us improve! <a href="#" onclick="openFeedbackForm(); return false;">Give feedback on CivicAssist</a>
+            <div class="quick-actions">
+                <button class="quick-btn" onclick="askQuestion('What are elections?')">❓ What are elections?</button>
+                <button class="quick-btn" onclick="askQuestion('How do I register to vote?')">📝 How to register?</button>
+                <button class="quick-btn" onclick="askQuestion('How does voting work?')">🗳️ Voting process</button>
+                <button class="quick-btn" onclick="askQuestion('Election timeline')">📅 Election timeline</button>
+                <button class="quick-btn" onclick="askQuestion('Am I eligible to vote?')">✅ Check eligibility</button>
+            </div>
+
+            <div class="input-area">
+                <input type="text" id="userInput" placeholder="Ask me anything about elections..." onkeypress="handleKeyPress(event)">
+                <button onclick="sendMessage()">Send</button>
+            </div>
+
+            <div class="feedback-link">
+                📊 Help us improve! <a href="#" onclick="openFeedbackForm(); return false;">Give feedback on CivicAssist</a>
+            </div>
         </div>
     </div>
 
