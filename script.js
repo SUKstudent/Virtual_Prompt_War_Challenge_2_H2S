@@ -1,15 +1,108 @@
 let userAge = null;
+let recognition = null;
+let isListening = false;
+
+// Chat History (stored in localStorage)
+let chatHistory = [];
+
+// Load chat history from localStorage
+function loadChatHistory() {
+    const saved = localStorage.getItem('civicassist_chat_history');
+    if (saved) {
+        chatHistory = JSON.parse(saved);
+        // Restore messages to chat area
+        const chatArea = document.getElementById('chatArea');
+        chatArea.innerHTML = '';
+        chatHistory.forEach(msg => {
+            addMessage(msg.text, msg.isUser, false);
+        });
+    }
+}
+
+// Save chat history to localStorage
+function saveChatHistory() {
+    localStorage.setItem('civicassist_chat_history', JSON.stringify(chatHistory));
+}
+
+// Clear chat history
+function clearChatHistory() {
+    chatHistory = [];
+    localStorage.removeItem('civicassist_chat_history');
+    const chatArea = document.getElementById('chatArea');
+    chatArea.innerHTML = '';
+    // Add welcome message back
+    addMessage("Hello! I'm CivicAssist. Ask me anything about elections, voting, or government types by continent.", false, false);
+}
+
+// Initialize voice recognition
+function initVoiceRecognition() {
+    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+        const SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition;
+        recognition = new SpeechRecognition();
+        recognition.continuous = false;
+        recognition.interimResults = false;
+        recognition.lang = 'en-US';
+        
+        recognition.onresult = function(event) {
+            const transcript = event.results[0][0].transcript;
+            document.getElementById('userInput').value = transcript;
+            sendMessage();
+            isListening = false;
+            const voiceBtn = document.getElementById('voiceBtn');
+            if (voiceBtn) voiceBtn.classList.remove('listening');
+        };
+        
+        recognition.onerror = function(event) {
+            console.error('Voice recognition error:', event.error);
+            isListening = false;
+            const voiceBtn = document.getElementById('voiceBtn');
+            if (voiceBtn) voiceBtn.classList.remove('listening');
+            addMessage("Sorry, I couldn't hear you. Please try again or type your question.", false, true);
+        };
+        
+        recognition.onend = function() {
+            isListening = false;
+            const voiceBtn = document.getElementById('voiceBtn');
+            if (voiceBtn) voiceBtn.classList.remove('listening');
+        };
+    } else {
+        console.warn('Voice recognition not supported');
+    }
+}
+
+// Start voice input
+function startVoiceInput() {
+    if (!recognition) {
+        addMessage("Voice input is not supported in your browser. Please type your question instead.", false, true);
+        return;
+    }
+    
+    if (isListening) {
+        recognition.stop();
+        isListening = false;
+        const voiceBtn = document.getElementById('voiceBtn');
+        if (voiceBtn) voiceBtn.classList.remove('listening');
+    } else {
+        recognition.start();
+        isListening = true;
+        const voiceBtn = document.getElementById('voiceBtn');
+        if (voiceBtn) voiceBtn.classList.add('listening');
+    }
+}
 
 document.addEventListener('DOMContentLoaded', function() {
     const startBtn = document.getElementById('startBtn');
     const backBtn = document.getElementById('backToWelcome');
     const welcomeScreen = document.getElementById('welcomeScreen');
     const chatScreen = document.getElementById('chatScreen');
+    const voiceBtn = document.getElementById('voiceBtn');
+    const clearHistoryBtn = document.getElementById('clearHistoryBtn');
 
     if (startBtn) {
         startBtn.addEventListener('click', function() {
             welcomeScreen.classList.add('hidden');
             chatScreen.classList.remove('hidden');
+            loadChatHistory(); // Load saved history when entering chat
         });
     }
 
@@ -19,15 +112,36 @@ document.addEventListener('DOMContentLoaded', function() {
             welcomeScreen.classList.remove('hidden');
         });
     }
+    
+    if (voiceBtn) {
+        voiceBtn.addEventListener('click', startVoiceInput);
+    }
+    
+    if (clearHistoryBtn) {
+        clearHistoryBtn.addEventListener('click', function() {
+            if (confirm('Clear all chat history?')) {
+                clearChatHistory();
+                addMessage("Chat history cleared. Ask me anything about elections!", false, true);
+            }
+        });
+    }
+    
+    // Initialize voice recognition
+    initVoiceRecognition();
 });
 
-function addMessage(text, isUser = false) {
+function addMessage(text, isUser = false, saveToHistory = true) {
     const chatArea = document.getElementById('chatArea');
     const messageDiv = document.createElement('div');
     messageDiv.className = `message ${isUser ? 'user-message' : 'assistant-message'}`;
     messageDiv.innerHTML = `<div class="bubble">${text}</div>`;
     chatArea.appendChild(messageDiv);
     chatArea.scrollTop = chatArea.scrollHeight;
+    
+    if (saveToHistory) {
+        chatHistory.push({ text: text, isUser: isUser });
+        saveChatHistory();
+    }
 }
 
 function askQuestion(question) {
@@ -43,23 +157,23 @@ function handleKeyPress(event) {
 
 function openFeedbackForm() {
     // 🔴 REPLACE THIS LINK with your actual Google Forms link 🔴
-    window.open('https://forms.gle/Udv1qZTdsv44aVjq9', '_blank');
-    addMessage("Thank you for your feedback!");
+    window.open('https://forms.gle/YOUR_ACTUAL_LINK_HERE', '_blank');
+    addMessage("Thank you for your feedback!", false, true);
 }
 
 function processAge(age) {
     const ageNum = parseInt(age);
     if (isNaN(ageNum)) {
-        addMessage("Please tell me your age.");
+        addMessage("Please tell me your age.", false, true);
         return false;
     }
     
     userAge = ageNum;
     
     if (userAge < 18) {
-        addMessage(`You are ${userAge}. Voting age is 18+ in most countries.`);
+        addMessage(`You are ${userAge}. Voting age is 18+ in most countries.`, false, true);
     } else {
-        addMessage(`Got it. You're eligible to vote.`);
+        addMessage(`Got it. You're eligible to vote.`, false, true);
     }
     return true;
 }
@@ -68,121 +182,79 @@ function getContinentInfo(continent) {
     const continentLower = continent.toLowerCase();
     
     const continentData = {
-        'asia': `🌏 **Asia** - Most common government: Republic / Monarchy / One-Party State
+        'asia': `🌏 **Asia** - Most common governments: Republic, Monarchy, One-Party State
 
-**Common Election Rules followed in most Asian countries:**
-• Voting age: 18 years
-• Voter ID required
-• Elections held every 4-5 years
-• Secret ballot system
+**Government types found in Asia:**
+• 🇮🇳 India - Federal Parliamentary Republic (Democracy)
+• 🇨🇳 China - One-Party Socialist Republic (Communist State)
+• 🇯🇵 Japan - Constitutional Monarchy
+• 🇸🇦 Saudi Arabia - Absolute Monarchy
+• 🇰🇵 North Korea - Totalitarian Dictatorship
+• 🇮🇷 Iran - Theocratic Republic
 
-**Popular countries & their government types:**
-🇮🇳 India - Federal Parliamentary Republic (Democracy)
-🇨🇳 China - One-Party Socialist Republic (Communist State)
-🇯🇵 Japan - Constitutional Monarchy (Parliamentary Democracy)
-🇰🇷 South Korea - Presidential Republic (Democracy)
-🇮🇩 Indonesia - Presidential Republic (Democracy)
-
-*And many other Asian nations.*`,
+**Common Election Rules:** Voting age 18, Voter ID required, Elections every 4-5 years`,
         
         'africa': `🌍 **Africa** - Most common government: Presidential Republic
 
-**Common Election Rules followed in most African countries:**
-• Voting age: 18 years
-• Multi-party democratic elections
-• Independent election commissions
-• Term limits for presidents (in many countries)
+**Government types found in Africa:**
+• 🇳🇬 Nigeria - Federal Presidential Republic (Democracy)
+• 🇿🇦 South Africa - Parliamentary Republic (Democracy)
+• 🇸🇩 Sudan - Transitional Government
+• 🇪🇷 Eritrea - One-Party State
+• 🇲🇦 Morocco - Constitutional Monarchy
 
-**Popular countries & their government types:**
-🇳🇬 Nigeria - Federal Presidential Republic (Democracy)
-🇿🇦 South Africa - Parliamentary Republic (Democracy)
-🇰🇪 Kenya - Presidential Republic (Democracy)
-🇬🇭 Ghana - Presidential Republic (Democracy)
-🇪🇬 Egypt - Semi-Presidential Republic
-
-*And many other African nations.*`,
+**Common Election Rules:** Voting age 18, Multi-party elections, Independent commissions`,
         
-        'north america': `🌎 **North America** - Most common government: Federal Republic / Democracy
+        'north america': `🌎 **North America** - Most common government: Federal Republic
 
-**Common Election Rules followed in most North American countries:**
-• Voting age: 18 years
-• Voter registration required
-• Regular federal, state, and local elections
-• Secret ballot system
+**Government types found in North America:**
+• 🇺🇸 USA - Federal Presidential Republic (Democracy)
+• 🇨🇦 Canada - Parliamentary Democracy (Constitutional Monarchy)
+• 🇲🇽 Mexico - Federal Presidential Republic (Democracy)
+• 🇨🇺 Cuba - One-Party Socialist Republic
 
-**Popular countries & their government types:**
-🇺🇸 USA - Federal Presidential Republic (Democracy)
-🇨🇦 Canada - Parliamentary Democracy (Constitutional Monarchy)
-🇲🇽 Mexico - Federal Presidential Republic (Democracy)
-🇨🇺 Cuba - One-Party Socialist Republic (Communist State)
-🇯🇲 Jamaica - Parliamentary Democracy (Constitutional Monarchy)
-
-*And many other North American nations.*`,
+**Common Election Rules:** Voting age 18, Voter registration required, Secret ballot`,
         
         'south america': `🌎 **South America** - Most common government: Presidential Republic
 
-**Common Election Rules followed in most South American countries:**
-• Voting age: 16-18 years (16 in some countries)
-• Direct presidential elections
-• Mandatory voting in some countries
-• Independent electoral courts
+**Government types found in South America:**
+• 🇧🇷 Brazil - Federal Presidential Republic (Democracy)
+• 🇻🇪 Venezuela - Federal Presidential Republic
+• 🇦🇷 Argentina - Presidential Republic (Democracy)
+• 🇨🇱 Chile - Presidential Republic (Democracy)
 
-**Popular countries & their government types:**
-🇧🇷 Brazil - Federal Presidential Republic (Democracy)
-🇦🇷 Argentina - Presidential Republic (Democracy)
-🇨🇱 Chile - Presidential Republic (Democracy)
-🇨🇴 Colombia - Presidential Republic (Democracy)
-🇵🇪 Peru - Presidential Republic (Democracy)
-
-*And many other South American nations.*`,
+**Common Election Rules:** Voting age 16-18, Mandatory voting in some countries`,
         
-        'europe': `🌏 **Europe** - Most common government: Parliamentary Republic / Constitutional Monarchy
+        'europe': `🌏 **Europe** - Most common governments: Parliamentary Republic, Constitutional Monarchy
 
-**Common Election Rules followed in most European countries:**
-• Voting age: 18 years (16 in some like Austria)
-• Proportional representation
-• Strong election monitoring
-• Postal voting available
+**Government types found in Europe:**
+• 🇩🇪 Germany - Federal Parliamentary Republic (Democracy)
+• 🇬🇧 United Kingdom - Constitutional Monarchy
+• 🇫🇷 France - Semi-Presidential Republic (Democracy)
+• 🇷🇺 Russia - Federal Semi-Presidential Republic
+• 🇻🇦 Vatican City - Theocratic Absolute Monarchy
 
-**Popular countries & their government types:**
-🇩🇪 Germany - Federal Parliamentary Republic (Democracy)
-🇫🇷 France - Semi-Presidential Republic (Democracy)
-🇬🇧 United Kingdom - Constitutional Monarchy (Parliamentary Democracy)
-🇮🇹 Italy - Parliamentary Republic (Democracy)
-🇪🇸 Spain - Constitutional Monarchy (Parliamentary Democracy)
-
-*And many other European nations.*`,
+**Common Election Rules:** Voting age 18 (16 in some), Proportional representation`,
         
         'australia': `🌏 **Australia/Oceania** - Most common government: Parliamentary Democracy
 
-**Common Election Rules followed in most Oceanian countries:**
-• Voting age: 18 years
-• Compulsory voting in Australia
-• Preferential voting system
-• Regular elections every 3-4 years
+**Government types found in Oceania:**
+• 🇦🇺 Australia - Parliamentary Democracy (Constitutional Monarchy)
+• 🇳🇿 New Zealand - Parliamentary Democracy
+• 🇫🇯 Fiji - Parliamentary Republic (Democracy)
+• 🇹🇴 Tonga - Constitutional Monarchy
 
-**Popular countries & their government types:**
-🇦🇺 Australia - Parliamentary Democracy (Constitutional Monarchy)
-🇳🇿 New Zealand - Parliamentary Democracy (Constitutional Monarchy)
-🇫🇯 Fiji - Parliamentary Republic (Democracy)
-🇵🇬 Papua New Guinea - Parliamentary Democracy
-
-*And other Oceanian nations.*`,
+**Common Election Rules:** Voting age 18, Compulsory voting in Australia`,
         
         'antarctica': `🧊 **Antarctica** - No permanent government
 
-**Special Note:**
-• Governed by Antarctic Treaty System (1959)
-• No local elections
-• Researchers vote in their home countries
-
-**Countries active in Antarctica:**
-🇺🇸 USA | 🇷🇺 Russia | 🇬🇧 UK | 🇨🇳 China | 🇦🇺 Australia
-
-*All operate under international cooperation.*`
+**Special Note:** Governed by Antarctic Treaty System (1959)
+• No native population, only research stations
+• No elections held
+• Researchers vote in their home countries`
     };
     
-    return continentData[continentLower] || `I can tell you about election rules in Asia, Africa, North America, South America, Europe, Australia, and Antarctica. Which continent would you like to know about?`;
+    return continentData[continentLower] || `I can tell you about government types and election rules in Asia, Africa, North America, South America, Europe, Australia, and Antarctica. Which continent would you like to know about?`;
 }
 
 function detectContinent(message) {
@@ -208,7 +280,7 @@ function processResponse(message) {
     // Handle continent-based questions
     const continent = detectContinent(lowerMsg);
     if (continent && (lowerMsg.includes('government') || lowerMsg.includes('election') || lowerMsg.includes('vote') || lowerMsg.includes('rules') || lowerMsg.includes('system'))) {
-        addMessage(getContinentInfo(continent));
+        addMessage(getContinentInfo(continent), false, true);
         return;
     }
     
@@ -227,28 +299,28 @@ I can help you with:
 • Election timelines
 • Government types by continent
 
-Feel free to ask! 🗳️`);
+Feel free to ask! 🗳️`, false, true);
         return;
     }
     
     // Basic election questions
     if (lowerMsg.includes('what are elections') || lowerMsg.includes('what is election')) {
-        addMessage("Elections are a formal process where citizens choose their representatives. They are the foundation of democracy.");
+        addMessage("Elections are a formal process where citizens choose their representatives. They are the foundation of democracy.", false, true);
     }
     else if (lowerMsg.includes('register')) {
-        addMessage("To register: Check eligibility (18+), find your local election office, fill application with ID, submit before deadline.");
+        addMessage("To register: Check eligibility (18+), find your local election office, fill application with ID, submit before deadline.", false, true);
     }
     else if (lowerMsg.includes('how to vote') || lowerMsg.includes('voting process')) {
-        addMessage("Register → Find polling station → Show ID → Get ballot → Vote privately → Your vote is counted.");
+        addMessage("Register → Find polling station → Show ID → Get ballot → Vote privately → Your vote is counted.", false, true);
     }
     else if (lowerMsg.includes('timeline')) {
-        addMessage("Announcement → Nominations → Campaign → Registration deadline → Election Day → Counting → Results.");
+        addMessage("Announcement → Nominations → Campaign → Registration deadline → Election Day → Counting → Results.", false, true);
     }
     else if (lowerMsg.includes('eligible') || lowerMsg.includes('can i vote')) {
         if (userAge) {
-            addMessage(userAge >= 18 ? "You are eligible to vote." : "You need to be 18+ to vote.");
+            addMessage(userAge >= 18 ? "You are eligible to vote." : "You need to be 18+ to vote.", false, true);
         } else {
-            addMessage("Please tell me your age first.");
+            addMessage("Please tell me your age first.", false, true);
         }
     }
     else if (lowerMsg.includes('continent') || lowerMsg.includes('government type')) {
@@ -261,10 +333,10 @@ Feel free to ask! 🗳️`);
 • Australia/Oceania
 • Antarctica
 
-Which continent are you interested in?`);
+Which continent are you interested in?`, false, true);
     }
     else if (lowerMsg.includes('hello') || lowerMsg.includes('hi')) {
-        addMessage("Hello! Ask me about elections, voting, eligibility, or government types by continent!");
+        addMessage("Hello! Ask me about elections, voting, eligibility, or government types by continent!", false, true);
     }
     else {
         addMessage(`I can help with:
@@ -275,7 +347,7 @@ Which continent are you interested in?`);
 • Age eligibility
 • Government types by continent
 
-What would you like to know? 🗳️`);
+What would you like to know? 🗳️`, false, true);
     }
 }
 
@@ -285,7 +357,7 @@ function sendMessage() {
     
     if (message === '') return;
     
-    addMessage(message, true);
+    addMessage(message, true, true);
     input.value = '';
     
     setTimeout(() => {
