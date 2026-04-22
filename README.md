@@ -112,10 +112,10 @@ CivicAssist demonstrates how structured AI-style assistants can simplify complex
 
 ## 📝 Note
 
-This project is a lightweight prototype built for the InstructionCombat (HackSkill Program), showcasing structured reasoning, user-friendly interaction design, and accessibility-focused communication.
+This project is a lightweight prototype built for the PromptWars(Hack2Skill Program), showcasing structured reasoning, user-friendly interaction design, and accessibility-focused communication.
 
 ----
 
 ## 🚀 Acknowledgment
 
-Developed as part of the PromptWars (Hack2Skill Program)
+Developed as part of the PromptWars(Hack2Skill Program)
