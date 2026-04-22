@@ -8,109 +8,47 @@
 </head>
 <body>
     <div class="container">
-        <!-- Welcome Screen -->
+        <!-- Welcome Screen (Gemini Style) -->
         <div id="welcomeScreen" class="welcome-screen">
             <div class="welcome-content">
-                <!-- Floating Smiley Chatbot -->
-                <div class="floating-chatbot">
-                    <div class="chatbot-body">
-                        <div class="chatbot-face">
-                            <div class="chatbot-eyes">
-                                <div class="eye left-eye"></div>
-                                <div class="eye right-eye"></div>
-                            </div>
-                            <div class="chatbot-smile">😊</div>
-                        </div>
-                        <div class="chatbot-waving-hand">
-                            <span class="hand-wave">👋</span>
-                        </div>
-                    </div>
-                    <!-- Speech Bubble -->
-                    <div class="hi-bubble">
-                        <span>Hi! 👋</span>
-                        <div class="bubble-tail"></div>
-                    </div>
-                </div>
-
-                <!-- Animated Title -->
-                <h1 class="animated-title">
-                    <span class="title-word">Welcome</span>
-                    <span class="title-word">to</span>
-                    <span class="title-word">🗳️</span>
-                    <span class="title-word">Civic</span>
-                    <span class="title-word">Assist</span>
-                </h1>
-
-                <!-- Tagline -->
+                <h1 class="title">Welcome to CivicAssist</h1>
                 <p class="tagline">Your Smart Guide to Elections & Democracy</p>
-                
                 <p class="description">I'll help you understand elections, voter eligibility, registration, and voting steps in a simple, interactive way.</p>
                 
                 <div class="features">
-                    <div class="feature">
-                        <span>📖</span>
-                        <span>What are elections?</span>
-                    </div>
-                    <div class="feature">
-                        <span>🪪</span>
-                        <span>Eligibility check</span>
-                    </div>
-                    <div class="feature">
-                        <span>📝</span>
-                        <span>Registration guide</span>
-                    </div>
-                    <div class="feature">
-                        <span>🗳️</span>
-                        <span>Voting process</span>
-                    </div>
-                    <div class="feature">
-                        <span>📅</span>
-                        <span>Election timeline</span>
-                    </div>
+                    <span>📖 What are elections?</span>
+                    <span>🪪 Eligibility check</span>
+                    <span>📝 Registration guide</span>
+                    <span>🗳️ Voting process</span>
+                    <span>📅 Election timeline</span>
+                    <span>🌍 Continent-wise rules</span>
                 </div>
 
-                <button id="startBtn" class="start-btn">
-                    Start Learning 🚀
-                </button>
+                <button id="startBtn" class="start-btn">Start Learning 🚀</button>
             </div>
         </div>
 
         <!-- Chat Interface (Hidden initially) -->
         <div id="chatScreen" class="chat-screen hidden">
             <div class="chat-header">
-                <div class="chat-header-info">
-                    <span class="chat-icon">🗳️</span>
-                    <div>
-                        <h3>CivicAssist</h3>
-                        <p>Online • Ready to help</p>
-                    </div>
-                </div>
+                <span class="chat-icon">🗳️</span>
+                <span>CivicAssist</span>
                 <button id="backToWelcome" class="back-btn">← Back</button>
             </div>
 
             <div class="chat-area" id="chatArea">
                 <div class="message assistant-message">
-                    <div class="bubble">
-                        👋 Hello! I'm CivicAssist. I can help you understand elections, voter eligibility, registration, voting steps, and timelines.
-                    </div>
+                    <div class="bubble">Hello! I'm CivicAssist. Ask me anything about elections, voting, or government types by continent.</div>
                 </div>
             </div>
 
-            <div class="quick-actions">
-                <button class="quick-btn" onclick="askQuestion('What are elections?')">❓ What are elections?</button>
-                <button class="quick-btn" onclick="askQuestion('How do I register to vote?')">📝 How to register?</button>
-                <button class="quick-btn" onclick="askQuestion('How does voting work?')">🗳️ Voting process</button>
-                <button class="quick-btn" onclick="askQuestion('What is the election timeline?')">📅 Election timeline</button>
-                <button class="quick-btn" onclick="askQuestion('Am I eligible to vote?')">✅ Check eligibility</button>
-            </div>
-
             <div class="input-area">
-                <input type="text" id="userInput" placeholder="Ask me anything about elections..." onkeypress="handleKeyPress(event)">
+                <input type="text" id="userInput" placeholder="Ask anything about elections..." onkeypress="handleKeyPress(event)">
                 <button onclick="sendMessage()">Send</button>
             </div>
 
             <div class="feedback-link">
-                📊 Help us improve! <a href="#" onclick="openFeedbackForm(); return false;">Give feedback on CivicAssist</a>
+                <a href="#" onclick="openFeedbackForm(); return false;">Give feedback</a>
             </div>
         </div>
     </div>
