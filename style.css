@@ -21,35 +21,343 @@ body {
     border-radius: 20px;
     box-shadow: 0 20px 60px rgba(0,0,0,0.3);
     overflow: hidden;
+    min-height: 600px;
+}
+
+/* ========== WELCOME SCREEN ========== */
+.welcome-screen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 600px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 40px 20px;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.welcome-content {
+    text-align: center;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+/* Animated Title */
+.animated-title {
+    font-size: 3.5rem;
+    margin-bottom: 30px;
+    animation: fadeInDown 0.8s ease;
+}
+
+.title-word {
+    display: inline-block;
+    animation: titlePop 0.5s ease-out;
+    margin: 0 5px;
+}
+
+@keyframes titlePop {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    80% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Robot Container */
+.robot-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.robot {
+    position: relative;
+    width: 120px;
+    height: 150px;
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.robot-face {
+    width: 80px;
+    height: 80px;
+    background: #e0e0e0;
+    border-radius: 50%;
+    position: absolute;
+    top: 0;
+    left: 20px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.robot-eyes {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    padding-top: 25px;
+}
+
+.robot-eye {
+    width: 12px;
+    height: 12px;
+    background: #333;
+    border-radius: 50%;
+    animation: blink 3s infinite;
+}
+
+@keyframes blink {
+    0%, 90%, 100% {
+        height: 12px;
+    }
+    95% {
+        height: 2px;
+    }
+}
+
+.robot-mouth {
+    width: 30px;
+    height: 8px;
+    background: #333;
+    border-radius: 10px;
+    margin: 10px auto 0;
+    animation: smile 2s ease-in-out infinite;
+}
+
+@keyframes smile {
+    0%, 100% {
+        width: 30px;
+    }
+    50% {
+        width: 40px;
+    }
+}
+
+.robot-body {
+    width: 60px;
+    height: 60px;
+    background: #c0c0c0;
+    border-radius: 20px;
+    position: absolute;
+    bottom: 0;
+    left: 30px;
+}
+
+.robot-arm {
+    position: absolute;
+    width: 20px;
+    height: 50px;
+    background: #c0c0c0;
+    border-radius: 10px;
+    bottom: 10px;
+}
+
+.waving-arm {
+    left: -15px;
+    transform-origin: top;
+    animation: wave 1.5s ease-in-out infinite;
+}
+
+@keyframes wave {
+    0%, 100% {
+        transform: rotate(0deg);
+    }
+    25% {
+        transform: rotate(30deg);
+    }
+    75% {
+        transform: rotate(-10deg);
+    }
+}
+
+.static-arm {
+    right: -15px;
+    transform: rotate(10deg);
+}
+
+.hand {
+    position: absolute;
+    bottom: -15px;
+    left: -2px;
+    font-size: 20px;
+}
+
+/* Speech Bubble */
+.speech-bubble {
+    position: relative;
+    background: white;
+    border-radius: 20px;
+    padding: 15px 20px;
+    max-width: 250px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    animation: bubblePop 0.5s ease-out;
+}
+
+@keyframes bubblePop {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    80% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.speech-bubble p {
+    margin: 5px 0;
+    font-size: 1rem;
+    color: #333;
+}
+
+.speech-bubble .small-text {
+    font-size: 0.8rem;
+    color: #666;
+}
+
+.bubble-tail {
+    position: absolute;
+    left: -15px;
+    bottom: 20px;
+    width: 0;
+    height: 0;
+    border: 10px solid transparent;
+    border-right-color: white;
+    border-left: 0;
+}
+
+.description {
+    color: white;
+    font-size: 1rem;
+    margin: 20px 0;
+    line-height: 1.6;
+}
+
+.features {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    margin: 25px 0;
+}
+
+.feature {
+    background: rgba(255,255,255,0.2);
+    padding: 8px 15px;
+    border-radius: 20px;
+    color: white;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    backdrop-filter: blur(5px);
+}
+
+.start-btn {
+    background: white;
+    color: #667eea;
+    border: none;
+    padding: 14px 35px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    margin-top: 10px;
+}
+
+.start-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+}
+
+/* Focus indicators for accessibility */
+.start-btn:focus, .quick-btn:focus, input:focus, button:focus, .back-btn:focus {
+    outline: 3px solid #ff9800;
+    outline-offset: 2px;
+}
+
+/* ========== CHAT SCREEN ========== */
+.chat-screen {
     display: flex;
     flex-direction: column;
-    height: 90vh;
-    max-height: 750px;
+    height: 700px;
 }
 
-/* Header */
-.header {
+.chat-header {
     background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
     color: white;
-    padding: 20px;
-    text-align: center;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-.header h1 {
-    font-size: 1.8rem;
-    margin-bottom: 5px;
+.chat-header-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
 
-.header h1 span {
-    font-size: 1.5rem;
+.chat-icon {
+    font-size: 2rem;
 }
 
-.header p {
-    font-size: 0.9rem;
-    opacity: 0.9;
+.chat-header-info h3 {
+    font-size: 1.1rem;
 }
 
-/* Chat area */
+.chat-header-info p {
+    font-size: 0.7rem;
+    opacity: 0.8;
+}
+
+.back-btn {
+    background: rgba(255,255,255,0.2);
+    border: none;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.85rem;
+}
+
+.back-btn:hover {
+    background: rgba(255,255,255,0.3);
+}
+
 .chat-area {
     flex: 1;
     overflow-y: auto;
@@ -60,7 +368,6 @@ body {
     gap: 12px;
 }
 
-/* Message bubbles */
 .message {
     display: flex;
     margin-bottom: 10px;
@@ -107,7 +414,6 @@ body {
     border-bottom-right-radius: 4px;
 }
 
-/* Quick action buttons */
 .quick-actions {
     padding: 15px 20px;
     background: white;
@@ -125,16 +431,13 @@ body {
     cursor: pointer;
     font-size: 13px;
     transition: all 0.2s;
-    color: #333;
 }
 
 .quick-btn:hover {
     background: #2a5298;
     color: white;
-    transform: translateY(-2px);
 }
 
-/* Input area */
 .input-area {
     padding: 15px 20px;
     background: white;
@@ -163,15 +466,8 @@ body {
     padding: 12px 24px;
     border-radius: 25px;
     cursor: pointer;
-    font-size: 14px;
-    transition: background 0.2s;
 }
 
-.input-area button:hover {
-    background: #1e3c72;
-}
-
-/* Feedback link */
 .feedback-link {
     text-align: center;
     padding: 10px;
@@ -185,18 +481,21 @@ body {
     text-decoration: none;
 }
 
-.feedback-link a:hover {
-    text-decoration: underline;
-}
-
-/* Responsive */
 @media (max-width: 600px) {
     .bubble {
         max-width: 85%;
     }
-    
-    .quick-btn {
-        font-size: 11px;
-        padding: 6px 12px;
+    .animated-title {
+        font-size: 2.5rem;
+    }
+    .robot-container {
+        flex-direction: column;
+    }
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+    .message, .robot, .waving-arm, .animated-title, .speech-bubble {
+        animation: none !important;
     }
 }
