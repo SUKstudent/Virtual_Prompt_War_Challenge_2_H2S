@@ -11,37 +11,38 @@
         <!-- Welcome Screen -->
         <div id="welcomeScreen" class="welcome-screen">
             <div class="welcome-content">
+                <!-- Floating Smiley Chatbot -->
+                <div class="floating-chatbot">
+                    <div class="chatbot-body">
+                        <div class="chatbot-face">
+                            <div class="chatbot-eyes">
+                                <div class="eye left-eye"></div>
+                                <div class="eye right-eye"></div>
+                            </div>
+                            <div class="chatbot-smile">😊</div>
+                        </div>
+                        <div class="chatbot-waving-hand">
+                            <span class="hand-wave">👋</span>
+                        </div>
+                    </div>
+                    <!-- Speech Bubble -->
+                    <div class="hi-bubble">
+                        <span>Hi! 👋</span>
+                        <div class="bubble-tail"></div>
+                    </div>
+                </div>
+
                 <!-- Animated Title -->
                 <h1 class="animated-title">
+                    <span class="title-word">Welcome</span>
+                    <span class="title-word">to</span>
                     <span class="title-word">🗳️</span>
                     <span class="title-word">Civic</span>
                     <span class="title-word">Assist</span>
                 </h1>
-                
-                <!-- Robot / Chatbot with waving hand -->
-                <div class="robot-container">
-                    <div class="robot">
-                        <div class="robot-face">
-                            <div class="robot-eyes">
-                                <div class="robot-eye"></div>
-                                <div class="robot-eye"></div>
-                            </div>
-                            <div class="robot-mouth"></div>
-                        </div>
-                        <div class="robot-body"></div>
-                        <div class="robot-arm waving-arm">
-                            <div class="hand">👋</div>
-                        </div>
-                        <div class="robot-arm static-arm"></div>
-                    </div>
-                    
-                    <!-- Speech Bubble -->
-                    <div class="speech-bubble">
-                        <p>👋 Hello! I'm CivicBot!</p>
-                        <p class="small-text">Your election guide 🗳️</p>
-                        <div class="bubble-tail"></div>
-                    </div>
-                </div>
+
+                <!-- Tagline -->
+                <p class="tagline">Your Smart Guide to Elections & Democracy</p>
                 
                 <p class="description">I'll help you understand elections, voter eligibility, registration, and voting steps in a simple, interactive way.</p>
                 
@@ -90,15 +91,7 @@
             <div class="chat-area" id="chatArea">
                 <div class="message assistant-message">
                     <div class="bubble">
-                        👋 Hello! I'm CivicAssist, your election process assistant.<br><br>
-                        I can help you understand:<br>
-                        • What elections are<br>
-                        • Who is eligible to vote<br>
-                        • How voter registration works<br>
-                        • How voting is carried out<br>
-                        • Election timelines<br><br>
-                        To get started, please tell me:<br>
-                        📝 <strong>What's your age?</strong>
+                        👋 Hello! I'm CivicAssist. I can help you understand elections, voter eligibility, registration, voting steps, and timelines.
                     </div>
                 </div>
             </div>
@@ -107,7 +100,7 @@
                 <button class="quick-btn" onclick="askQuestion('What are elections?')">❓ What are elections?</button>
                 <button class="quick-btn" onclick="askQuestion('How do I register to vote?')">📝 How to register?</button>
                 <button class="quick-btn" onclick="askQuestion('How does voting work?')">🗳️ Voting process</button>
-                <button class="quick-btn" onclick="askQuestion('Election timeline')">📅 Election timeline</button>
+                <button class="quick-btn" onclick="askQuestion('What is the election timeline?')">📅 Election timeline</button>
                 <button class="quick-btn" onclick="askQuestion('Am I eligible to vote?')">✅ Check eligibility</button>
             </div>
 
