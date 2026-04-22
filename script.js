@@ -45,73 +45,49 @@ function handleKeyPress(event) {
 function openFeedbackForm() {
     // 🔴 REPLACE THIS LINK with your actual Google Forms link 🔴
     window.open('https://forms.gle/Udv1qZTdsv44aVjq9', '_blank');
-    addMessage("📝 Thank you for your feedback! It helps make CivicAssist better.");
+    addMessage("Thank you for your feedback!");
 }
 
 function processAge(age) {
     const ageNum = parseInt(age);
     if (isNaN(ageNum)) {
-        addMessage("Please enter a valid number for your age. 📝 <strong>What's your age?</strong>");
+        addMessage("Please enter a valid number for your age.");
         return false;
     }
     
     userAge = ageNum;
     
     if (userAge < 18) {
-        addMessage(`👋 You are ${userAge} years old.<br><br>
-        🌟 In most countries, voting age is 18. While you cannot vote yet, you can:<br>
-        • Learn about elections<br>
-        • Encourage eligible family members to vote<br>
-        • Stay informed for when you become eligible!`);
+        addMessage(`You are ${userAge}. Voting age is 18+ in most countries.`);
     } else {
-        addMessage(`✅ Great! You are ${userAge} and <strong>eligible to vote</strong> in most countries.<br><br>
-        Ask me about registration, voting process, or election timelines!`);
+        addMessage(`Got it. You're eligible to vote.`);
     }
     return true;
 }
 
 function getElectionExplanation() {
-    return `📖 <strong>What are Elections?</strong><br><br>
-    Elections are a formal process where citizens choose their representatives. They are the foundation of democracy.<br><br>
-    <strong>Key points:</strong><br>
-    • People vote for leaders who represent them<br>
-    • Elections can be local, regional, or national<br>
-    • Voting is done by secret ballot<br>
-    • Regular elections ensure accountability`;
+    return `Elections are a formal process where citizens choose their representatives. They are the foundation of democracy. Voting is done by secret ballot, and regular elections ensure accountability.`;
 }
 
 function getRegistrationGuide() {
-    return `📝 <strong>How Voter Registration Works</strong><br><br>
-    <strong>Step-by-step:</strong><br>
-    • Check eligibility (18+ in most countries)<br>
-    • Find local election office<br>
-    • Fill application with ID and address proof<br>
-    • Submit before deadline<br>
-    • Receive voter ID card`;
+    return `To register: Check eligibility (18+ in most countries), find your local election office, fill an application with ID and address proof, submit before the deadline, and receive your voter ID card.`;
 }
 
 function getVotingProcess() {
-    return `🗳️ <strong>Step-by-Step Voting Process</strong><br><br>
-    <strong>Before Election Day:</strong> Register, find polling station<br>
-    <strong>On Election Day:</strong> Show ID, get ballot, vote privately<br>
-    <strong>After Voting:</strong> Your vote is counted with others`;
+    return `Before Election Day: Register and find your polling station. On Election Day: Show ID, get your ballot, vote privately. After voting: Your vote is counted with others.`;
 }
 
 function getElectionTimeline() {
-    return `📅 <strong>Election Timeline</strong><br><br>
-    • Announcement → Candidate nomination → Campaign period<br>
-    • Voter registration deadline (2-4 weeks before)<br>
-    • Early voting (if available) → Election Day<br>
-    • Counting → Results announced`;
+    return `Typical timeline: Announcement → Candidate nomination → Campaign period → Voter registration deadline (2-4 weeks before) → Early voting (if available) → Election Day → Counting → Results announced.`;
 }
 
 function getEligibilityCheck() {
     if (userAge === null) {
-        return "📝 Please tell me <strong>your age first</strong>. How old are you?";
+        return "Please tell me your age first.";
     } else if (userAge < 18) {
-        return `👤 You are ${userAge}. Not yet eligible to vote (need to be 18+).`;
+        return `You are ${userAge}. Minimum voting age is 18+ in most countries.`;
     } else {
-        return `✅ You are ${userAge} and <strong>eligible to vote</strong>!`;
+        return `You are ${userAge} and eligible to vote in most countries.`;
     }
 }
 
@@ -132,35 +108,32 @@ function sendMessage() {
 function processResponse(message) {
     const lowerMsg = message.toLowerCase();
     
+    // Handle age input
     if (userAge === null && !isNaN(parseInt(message)) && message.match(/^\d+$/)) {
         processAge(message);
         return;
     }
     
-    if (lowerMsg.includes('what are elections') || lowerMsg.includes('what is election')) {
+    // Handle questions naturally
+    if (lowerMsg.includes('what are elections') || lowerMsg.includes('what is election') || lowerMsg.includes('explain election')) {
         addMessage(getElectionExplanation());
     }
-    else if (lowerMsg.includes('register')) {
+    else if (lowerMsg.includes('register') || lowerMsg.includes('registration') || lowerMsg.includes('how to register')) {
         addMessage(getRegistrationGuide());
     }
-    else if (lowerMsg.includes('voting process') || lowerMsg.includes('how to vote')) {
+    else if (lowerMsg.includes('voting process') || lowerMsg.includes('how to vote') || lowerMsg.includes('casting vote')) {
         addMessage(getVotingProcess());
     }
-    else if (lowerMsg.includes('timeline')) {
+    else if (lowerMsg.includes('timeline') || lowerMsg.includes('election timeline') || lowerMsg.includes('when')) {
         addMessage(getElectionTimeline());
     }
-    else if (lowerMsg.includes('eligible') || lowerMsg.includes('can i vote')) {
+    else if (lowerMsg.includes('eligible') || lowerMsg.includes('eligibility') || lowerMsg.includes('can i vote') || lowerMsg.includes('am i eligible')) {
         addMessage(getEligibilityCheck());
     }
-    else if (lowerMsg.includes('hello') || lowerMsg.includes('hi')) {
-        addMessage("Hello! 👋 Ask me about elections, registration, or voting!");
+    else if (lowerMsg.includes('hello') || lowerMsg.includes('hi') || lowerMsg.includes('hey')) {
+        addMessage("Hello! How can I help you with elections today?");
     }
     else {
-        addMessage(`🤔 Ask me about:<br>
-        • What elections are<br>
-        • Voter eligibility<br>
-        • Registration process<br>
-        • Voting process<br>
-        • Election timelines`);
+        addMessage(`I can help with election-related questions. Feel free to ask about the voting process, eligibility, registration, or election timelines.`);
     }
 }
