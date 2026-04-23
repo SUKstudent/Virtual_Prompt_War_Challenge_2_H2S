@@ -63,7 +63,7 @@ The assistant takes basic user inputs such as:
 
 2) CSS
 
-3)JavaScript
+3) JavaScript
 
 ----
 
