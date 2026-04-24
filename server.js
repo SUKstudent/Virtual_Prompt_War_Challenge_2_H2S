@@ -8,6 +8,15 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// CORS configuration - MUST BE FIRST
+app.use(cors({
+    origin: '*',
+    methods: ['GET', 'POST', 'OPTIONS'],
+    allowedHeaders: ['Content-Type']
+}));
+
+// Handle preflight requests
+app.options('*', cors()); 
 // Middleware
 app.use(cors());
 app.use(express.json());
