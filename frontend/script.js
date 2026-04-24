@@ -45,7 +45,7 @@ async function sendToAI(message) {
         addMessage(`🗳️ Thanks for asking: "${message}"\n\nCivicAssist is designed to explain election processes, voter eligibility, registration, voting steps, and timelines. For specific rules in any country or continent, the AI backend would provide detailed, accurate responses.`, false, true);
     }, 1000);
     
-    /* === UNCOMMENT THIS WHEN BACKEND IS READY ===
+    /* === UNCOMMENT THIS WHEN BACKEND IS READY === */
     try {
         const response = await fetch(API_URL, {
             method: 'POST',
@@ -64,7 +64,7 @@ async function sendToAI(message) {
         console.error('Error:', error);
         addMessage("Unable to connect to AI service. Please make sure the backend is running. 🗳️", false, true);
     }
-    */
+   
 }
 
 function processResponse(message) {
