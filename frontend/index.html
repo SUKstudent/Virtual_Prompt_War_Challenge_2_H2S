@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>CivicAssist - AI Election Assistant</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="chat-screen">
+            <div class="chat-header">
+                <h1>CivicAssist <span class="subtitle">– AI Election Assistant</span></h1>
+                <p class="tagline">Powered by Google Gemini AI • Ask anything about elections</p>
+            </div>
+
+            <div class="chat-area" id="chatArea">
+                <div class="message assistant-message">
+                    <div class="bubble">
+                        👋 Hello! I'm CivicAssist, an AI-powered election assistant.<br><br>
+                        I can help you understand:<br>
+                        • What elections are and why they matter<br>
+                        • Voter eligibility & registration<br>
+                        • Voting processes worldwide<br>
+                        • Election rules for any country or continent<br>
+                        • Government types and systems<br><br>
+                        To get started, please tell me your age or just ask any election-related question! 🗳️
+                    </div>
+                </div>
+            </div>
+
+            <div class="quick-actions">
+                <button class="quick-btn" onclick="askQuestion('What are election rules of India?')">🇮🇳 India rules</button>
+                <button class="quick-btn" onclick="askQuestion('What are election rules of USA?')">🇺🇸 USA rules</button>
+                <button class="quick-btn" onclick="askQuestion('What are election rules of Japan?')">🇯🇵 Japan rules</button>
+                <button class="quick-btn" onclick="askQuestion('Why are elections important?')">❓ Why elections?</button>
+                <button class="quick-btn" onclick="askQuestion('How to register to vote?')">📝 Register to vote</button>
+                <button class="quick-btn" onclick="askQuestion('Compare India and USA election systems')">🌍 Compare systems</button>
+            </div>
+
+            <div class="input-area">
+                <input type="text" id="userInput" placeholder="Ask anything about elections..." onkeypress="handleKeyPress(event)">
+                <button onclick="sendMessage()" id="sendBtn">Send</button>
+            </div>
+
+            <div class="status-bar" id="statusBar">
+                <span>🤖 AI Ready</span>
+                <a href="#" onclick="openFeedbackForm(); return false;">📊 Give feedback</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
