@@ -1,6 +1,7 @@
 let userAge = null;
 let conversationHistory = [];
-const API_URL = 'http://localhost:3000/api/chat';
+// 🔴 CHANGE THIS to your actual Render backend URL
+const API_URL = 'http://localhost:10000/api/chat';
 
 function addMessage(text, isUser = false, saveToHistory = true) {
     const chatArea = document.getElementById('chatArea');
@@ -63,7 +64,7 @@ async function sendToAI(message) {
     } catch (error) {
         hideTypingIndicator();
         console.error('Error:', error);
-        addMessage("Unable to connect to AI service. Please make sure the backend is running on port 3000. 🗳️", false, true);
+        addMessage("Unable to connect to AI service. Please make sure the backend is running. 🗳️", false, true);
     } finally {
         sendBtn.disabled = false;
     }
@@ -95,7 +96,7 @@ function handleKeyPress(event) {
 }
 
 function openFeedbackForm() {
-    window.open('https://forms.gle/Udv1qZTdsv44aVjq9', '_blank');
+    window.open('https://forms.gle/YOUR_ACTUAL_LINK_HERE', '_blank');
     addMessage("📝 Thank you for your feedback! It helps make CivicAssist better.", false, true);
 }
 
@@ -111,7 +112,7 @@ function sendMessage() {
 
 async function checkBackend() {
     try {
-        const response = await fetch('http://localhost:3000/api/health');
+        const response = await fetch(API_URL.replace('/chat', '/health'));
         if (response.ok) {
             document.getElementById('statusBar').innerHTML = `
                 <span>✅ AI Connected • Powered by Gemini</span>
@@ -120,7 +121,7 @@ async function checkBackend() {
         }
     } catch (error) {
         document.getElementById('statusBar').innerHTML = `
-            <span>⚠️ AI Offline • Run 'npm start' in backend folder</span>
+            <span>⚠️ AI Offline • Check backend connection</span>
             <a href="#" onclick="openFeedbackForm(); return false;">📊 Give feedback</a>
         `;
     }
