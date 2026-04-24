@@ -105,7 +105,7 @@ CivicAssist is designed as a global civic education assistant and does not assum
 
 ----
 
-🔮 Future Scope
+## 🔮 Future Scope
 
 1) Country-specific election support
 
