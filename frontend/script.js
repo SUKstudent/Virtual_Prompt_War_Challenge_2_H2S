@@ -37,36 +37,36 @@ function hideTypingIndicator() {
 }
 
 async function sendToAI(message) {
+    const sendBtn = document.querySelector('.input-area button');
+    if (sendBtn) sendBtn.disabled = true;
     showTypingIndicator();
     
-    // Simulate AI response for demo
-    setTimeout(() => {
+    try {
+        const response = await fetch(API_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                message: message,
+                userAge: userAge,
+                conversationHistory: conversationHistory.slice(-10)
+            })
+        });
+        
+        const data = await response.json();
         hideTypingIndicator();
         
-        let responseText = '';
-        const lowerMsg = message.toLowerCase();
-        
-        if (lowerMsg.includes('register')) {
-            responseText = `🗳️ **How to Register to Vote:**\n\n1. Check your eligibility (18+ in most countries)\n2. Find your local election office or website\n3. Fill out a registration form (online or paper)\n4. Provide ID and address proof\n5. Submit before the deadline\n6. Receive your voter ID card\n\nWould you like to know about voting process next?`;
-        } 
-        else if (lowerMsg.includes('what are elections') || lowerMsg.includes('what is election')) {
-            responseText = `🗳️ Elections are a formal process where citizens choose their representatives. They are the foundation of democracy, allowing peaceful transfer of power and giving people a voice in government.`;
+        if (data.success) {
+            addMessage(data.response, false, true);
+        } else {
+            addMessage("I'm having trouble connecting. Please try again. 🗳️", false, true);
         }
-        else if (lowerMsg.includes('eligible') || lowerMsg.includes('can i vote')) {
-            responseText = `🗳️ To be eligible to vote in most countries:\n• Must be 18 years or older\n• Must be a citizen\n• Must be registered to vote\n\nBased on your age${userAge ? ` (${userAge})` : ''}, ${userAge && userAge >= 18 ? 'you ARE eligible to vote!' : userAge && userAge < 18 ? 'you will be eligible when you turn 18.' : 'tell me your age and I can check!'}`;
-        }
-        else if (lowerMsg.includes('vote process') || lowerMsg.includes('how to vote')) {
-            responseText = `🗳️ **Voting Process:**\n\n1. Register before deadline\n2. Find your polling station\n3. Bring ID and voter card\n4. Go to voting booth\n5. Mark your choice\n6. Submit your ballot\n\nYour vote is counted privately and securely.`;
-        }
-        else if (lowerMsg.includes('timeline')) {
-            responseText = `🗳️ **Election Timeline:**\n\n• Announcement → Nominations → Campaign → Registration deadline → Early voting → Election Day → Counting → Results\n\nTypically takes 2-6 months depending on the country.`;
-        }
-        else {
-            responseText = `🗳️ Civicoin: "${message}"\n\nI can help with:\n• What elections are\n• How to register\n• Voting process\n• Election timelines\n• Age eligibility\n• Government types\n\nWhat would you like to know?`;
-        }
-        
-        addMessage(responseText, false, true);
-    }, 800);
+    } catch (error) {
+        hideTypingIndicator();
+        console.error('Error:', error);
+        addMessage("Unable to connect to AI service. Please check if the backend is running. 🗳️", false, true);
+    } finally {
+        if (sendBtn) sendBtn.disabled = false;
+    }
 }
 
 function processResponse(message) {
