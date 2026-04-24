@@ -42,10 +42,26 @@ async function sendToAI(message) {
     // Simulate AI response for demo (remove this when backend connects)
     setTimeout(() => {
         hideTypingIndicator();
-        addMessage(`🗳️ Thanks for asking: "${message}"\n\nCivicAssist is designed to explain election processes, voter eligibility, registration, voting steps, and timelines. For specific rules in any country or continent, the AI backend would provide detailed, accurate responses.`, false, true);
+        
+        let responseText = '';
+        
+        if (message.toLowerCase().includes('register')) {
+            responseText = `🗳️ **How to Register to Vote:**\n\n1. Check your eligibility (18+ in most countries)\n2. Find your local election office or website\n3. Fill out a registration form (online or paper)\n4. Provide ID and address proof\n5. Submit before the deadline\n6. Receive your voter ID card\n\nWould you like to know about voting process next?`;
+        } 
+        else if (message.toLowerCase().includes('election')) {
+            responseText = `🗳️ Elections are a formal process where citizens choose their representatives. They are the foundation of democracy, allowing peaceful transfer of power and giving people a voice in government.`;
+        }
+        else if (message.toLowerCase().includes('eligible')) {
+            responseText = `🗳️ To be eligible to vote in most countries:\n• Must be 18 years or older\n• Must be a citizen\n• Must be registered to vote\n\nBased on your age${userAge ? ` (${userAge})` : ''}, ${userAge && userAge >= 18 ? 'you ARE eligible to vote!' : userAge && userAge < 18 ? 'you will be eligible when you turn 18.' : 'tell me your age and I can check!'}`;
+        }
+        else {
+            responseText = `🗳️ Thanks for asking: "${message}"\n\nCivicAssist helps explain election processes, voter eligibility, registration, voting steps, and timelines. For specific rules in any country or continent, the AI backend provides detailed, accurate responses.`;
+        }
+        
+        addMessage(responseText, false, true);
     }, 1000);
     
-    /* === UNCOMMENT THIS WHEN BACKEND IS READY === */
+    /* === UNCOMMENT WHEN BACKEND IS READY ===*/
     try {
         const response = await fetch(API_URL, {
             method: 'POST',
@@ -61,10 +77,9 @@ async function sendToAI(message) {
         }
     } catch (error) {
         hideTypingIndicator();
-        console.error('Error:', error);
         addMessage("Unable to connect to AI service. Please make sure the backend is running. 🗳️", false, true);
     }
-   
+    
 }
 
 function processResponse(message) {
