@@ -23,35 +23,28 @@ body {
     overflow: hidden;
 }
 
+/* Welcome Header */
+.welcome-header {
+    text-align: center;
+    padding: 30px 20px 20px 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.welcome-header h1 {
+    font-size: 2rem;
+    margin-bottom: 8px;
+}
+
+.welcome-header .tagline {
+    font-size: 1rem;
+    opacity: 0.9;
+}
+
 .chat-screen {
     display: flex;
     flex-direction: column;
     height: 650px;
-}
-
-.chat-header {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    padding: 20px 24px;
-    text-align: center;
-}
-
-.chat-header h1 {
-    font-size: 1.6rem;
-    font-weight: 600;
-    margin-bottom: 5px;
-}
-
-.chat-header .subtitle {
-    font-size: 0.9rem;
-    font-weight: normal;
-    opacity: 0.9;
-}
-
-.chat-header .tagline {
-    font-size: 0.8rem;
-    opacity: 0.8;
-    margin-top: 5px;
 }
 
 .chat-area {
