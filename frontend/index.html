@@ -8,12 +8,33 @@
 </head>
 <body>
     <div class="container">
-        <div class="welcome-header">
-            <h1>Welcome to CivicAssist</h1>
-            <p class="tagline">Your Smart Guide to Elections & Voting</p>
+        <!-- Welcome Screen (Visible First) -->
+        <div id="welcomeScreen" class="welcome-screen">
+            <div class="welcome-content">
+                <h1>🗳️ CivicAssist</h1>
+                <p class="welcome-tagline">Your Smart Guide to Elections & Voting</p>
+                <p class="welcome-description">
+                    Learn about elections, voter eligibility, registration, voting process, and government types across 7 continents.
+                </p>
+                <div class="welcome-features">
+                    <span>📖 What are elections?</span>
+                    <span>🪪 Eligibility check</span>
+                    <span>📝 Registration guide</span>
+                    <span>🗳️ Voting process</span>
+                    <span>📅 Election timeline</span>
+                    <span>🌍 7 Continents</span>
+                </div>
+                <button id="startBtn" class="start-btn">Start Learning 🚀</button>
+            </div>
         </div>
 
-        <div class="chat-screen">
+        <!-- Chat Interface (Hidden Initially) -->
+        <div id="chatScreen" class="chat-screen hidden">
+            <div class="chat-header">
+                <h1>CivicAssist</h1>
+                <p class="tagline">Your Smart Guide to Elections & Voting</p>
+            </div>
+
             <div class="chat-area" id="chatArea">
                 <div class="message assistant-message">
                     <div class="bubble">
