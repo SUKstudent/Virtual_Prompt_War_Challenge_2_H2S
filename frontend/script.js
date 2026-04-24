@@ -1,6 +1,6 @@
 let userAge = null;
 let conversationHistory = [];
-const API_URL = 'http://localhost:10000/api/chat';  // CHANGE THIS to your backend URL
+const API_URL = 'https://civic-agent.onrender.com';  // CHANGE THIS to your backend URL
 
 function addMessage(text, isUser = false, saveToHistory = true) {
     const chatArea = document.getElementById('chatArea');
