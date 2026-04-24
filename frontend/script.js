@@ -1,3 +1,17 @@
+// Screen switching
+document.addEventListener('DOMContentLoaded', function() {
+    const startBtn = document.getElementById('startBtn');
+    const welcomeScreen = document.getElementById('welcomeScreen');
+    const chatScreen = document.getElementById('chatScreen');
+
+    if (startBtn) {
+        startBtn.addEventListener('click', function() {
+            welcomeScreen.classList.add('hidden');
+            chatScreen.classList.remove('hidden');
+        });
+    }
+});
+
 let userAge = null;
 let conversationHistory = [];
 
@@ -107,6 +121,40 @@ Governed by Antarctic Treaty System (1959). No local elections. Researchers vote
     return continentData[continent] || `I have information about Asia, Africa, Europe, North America, South America, Australia, and Antarctica. Which continent would you like to know about?`;
 }
 
+function getVotingProcess() {
+    return `🗳️ **Step-by-Step Voting Process:**\n\n**Before Election Day:**\n• Register to vote before deadline\n• Find your assigned polling station\n• Check what ID you need to bring\n\n**On Election Day:**\n• Go to your polling station\n• Show your ID and voter card\n• Receive your ballot paper\n• Go to a private voting booth\n• Mark your choice clearly\n• Fold and deposit ballot in the box\n\n**After Voting:**\n• Get your finger marked (in many countries)\n• Your vote is counted with others\n• Results announced after counting`;
+}
+
+function getCountryInfo(country) {
+    const countryData = {
+        'south korea': `🗳️ **Election Rules of South Korea:**\n\n• Voting age: 18 years (lowered from 19 in 2020)\n• Managed by National Election Commission (NEC)\n• Voting hours: 6 AM to 6 PM\n• Electronic voting systems used\n• Presidential elections every 5 years\n• National Assembly elections every 4 years\n• Overseas voting available\n• Election day is a national holiday`,
+        
+        'korea': `🗳️ **Election Rules of South Korea:**\n\n• Voting age: 18 years\n• Managed by National Election Commission (NEC)\n• Presidential elections every 5 years\n• National Assembly elections every 4 years\n• Election day is a national holiday`,
+        
+        'brazil': `🗳️ **Election Rules of Brazil:**\n\n• Voting age: 16 years (optional), 18-70 (mandatory)\n• Fully electronic voting nationwide\n• Presidential elections every 4 years\n• Runoff system if no candidate gets 50%+\n• Voting is mandatory for citizens 18-70\n• Biometric voter identification system`,
+        
+        'india': `🗳️ **Election Rules of India:**\n\n• Voting age: 18 years\n• Voter ID card (EPIC) required\n• Electronic Voting Machines (EVMs) with VVPAT\n• Managed by Election Commission of India\n• Lok Sabha elections every 5 years\n• World's largest democracy with nearly 1 billion voters`,
+        
+        'usa': `🗳️ **Election Rules of USA:**\n\n• Voting age: 18 years\n• Voter registration required (varies by state)\n• Early voting and mail-in ballots available\n• Election Day: First Tuesday after first Monday in November\n• Electoral College system for President\n• Presidential elections every 4 years`,
+        
+        'canada': `🗳️ **Election Rules of Canada:**\n\n• Voting age: 18 years\n• Voter ID required (one piece of government ID)\n• Elections Canada runs federal elections\n• Advance voting available\n• Fixed election dates every 4 years`,
+        
+        'uk': `🗳️ **Election Rules of United Kingdom:**\n\n• Voting age: 18 years\n• Photo ID now required\n• Register online (takes 5 minutes)\n• Postal voting available\n• General elections every 5 years\n• First-past-the-post voting system`,
+        
+        'germany': `🗳️ **Election Rules of Germany:**\n\n• Voting age: 18 years\n• Mixed-member proportional system\n• Federal elections every 4 years\n• Two votes: one for candidate, one for party\n• Strong election monitoring system`,
+        
+        'australia': `🗳️ **Election Rules of Australia:**\n\n• Voting age: 18 years\n• Compulsory voting (mandatory by law)\n• Preferential voting system\n• Federal elections every 3 years\n• Fine for not voting (~$20 AUD)`
+    };
+    
+    for (let key in countryData) {
+        if (country.toLowerCase().includes(key)) {
+            return countryData[key];
+        }
+    }
+    
+    return `🗳️ **Election information for ${country.charAt(0).toUpperCase() + country.slice(1)}**\n\nMost countries follow common election principles:\n\n• Voting age: 18 years\n• Voter registration required\n• Secret ballot system\n• Regular elections every 4-5 years\n• Independent election commission\n\nFor specific rules, check your country's official Election Commission website!`;
+}
+
 function getResponse(message) {
     const lowerMsg = message.toLowerCase();
     
@@ -172,40 +220,6 @@ function getResponse(message) {
     return `🗳️ I can help with:\n• What elections are\n• How to register to vote\n• Voting process\n• Election timelines\n• Age eligibility\n• Government types across 7 continents\n\nTry asking: "Election rules in India" or "Government types in Asia"`;
 }
 
-function getVotingProcess() {
-    return `🗳️ **Step-by-Step Voting Process:**\n\n**Before Election Day:**\n• Register to vote before deadline\n• Find your assigned polling station\n• Check what ID you need to bring\n\n**On Election Day:**\n• Go to your polling station\n• Show your ID and voter card\n• Receive your ballot paper\n• Go to a private voting booth\n• Mark your choice clearly\n• Fold and deposit ballot in the box\n\n**After Voting:**\n• Get your finger marked (in many countries)\n• Your vote is counted with others\n• Results announced after counting`;
-}
-
-function getCountryInfo(country) {
-    const countryData = {
-        'south korea': `🗳️ **Election Rules of South Korea:**\n\n• Voting age: 18 years (lowered from 19 in 2020)\n• Managed by National Election Commission (NEC)\n• Voting hours: 6 AM to 6 PM\n• Electronic voting systems used\n• Presidential elections every 5 years\n• National Assembly elections every 4 years\n• Overseas voting available\n• Election day is a national holiday`,
-        
-        'korea': `🗳️ **Election Rules of South Korea:**\n\n• Voting age: 18 years\n• Managed by National Election Commission (NEC)\n• Presidential elections every 5 years\n• National Assembly elections every 4 years\n• Election day is a national holiday`,
-        
-        'brazil': `🗳️ **Election Rules of Brazil:**\n\n• Voting age: 16 years (optional), 18-70 (mandatory)\n• Fully electronic voting nationwide\n• Presidential elections every 4 years\n• Runoff system if no candidate gets 50%+\n• Voting is mandatory for citizens 18-70\n• Biometric voter identification system`,
-        
-        'india': `🗳️ **Election Rules of India:**\n\n• Voting age: 18 years\n• Voter ID card (EPIC) required\n• Electronic Voting Machines (EVMs) with VVPAT\n• Managed by Election Commission of India\n• Lok Sabha elections every 5 years\n• World's largest democracy with nearly 1 billion voters`,
-        
-        'usa': `🗳️ **Election Rules of USA:**\n\n• Voting age: 18 years\n• Voter registration required (varies by state)\n• Early voting and mail-in ballots available\n• Election Day: First Tuesday after first Monday in November\n• Electoral College system for President\n• Presidential elections every 4 years`,
-        
-        'canada': `🗳️ **Election Rules of Canada:**\n\n• Voting age: 18 years\n• Voter ID required (one piece of government ID)\n• Elections Canada runs federal elections\n• Advance voting available\n• Fixed election dates every 4 years`,
-        
-        'uk': `🗳️ **Election Rules of United Kingdom:**\n\n• Voting age: 18 years\n• Photo ID now required\n• Register online (takes 5 minutes)\n• Postal voting available\n• General elections every 5 years\n• First-past-the-post voting system`,
-        
-        'germany': `🗳️ **Election Rules of Germany:**\n\n• Voting age: 18 years\n• Mixed-member proportional system\n• Federal elections every 4 years\n• Two votes: one for candidate, one for party\n• Strong election monitoring system`,
-        
-        'australia': `🗳️ **Election Rules of Australia:**\n\n• Voting age: 18 years\n• Compulsory voting (mandatory by law)\n• Preferential voting system\n• Federal elections every 3 years\n• Fine for not voting (~$20 AUD)`
-    };
-    
-    for (let key in countryData) {
-        if (country.toLowerCase().includes(key)) {
-            return countryData[key];
-        }
-    }
-    
-    return `🗳️ **Election information for ${country.charAt(0).toUpperCase() + country.slice(1)}**\n\nI don't have specific rules for this country memorized, but most countries follow common election principles:\n\n• Voting age: 18 years\n• Voter registration required\n• Secret ballot system\n• Regular elections every 4-5 years\n• Independent election commission\n\nFor specific rules, check your country's official Election Commission website!`;
-}
-
 function processResponse(message) {
     showTypingIndicator();
     setTimeout(() => {
@@ -225,7 +239,7 @@ function handleKeyPress(event) {
 }
 
 function openFeedbackForm() {
-    window.open('https://forms.gle/Udv1qZTdsv44aVjq9', '_blank');
+    window.open('https://forms.gle/YOUR_ACTUAL_LINK_HERE', '_blank');
     addMessage("📝 Thank you for your feedback! It helps make CivicAssist better.", false, true);
 }
 
