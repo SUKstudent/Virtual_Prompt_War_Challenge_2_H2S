@@ -128,17 +128,28 @@ function getResponse(message) {
         }
     }
     
+    // Check for specific country questions
+    const countries = ['india', 'china', 'japan', 'south korea', 'korea', 'usa', 'america', 'united states', 
+                      'uk', 'united kingdom', 'canada', 'brazil', 'germany', 'france', 'italy', 'spain', 
+                      'australia', 'nigeria', 'south africa', 'mexico', 'argentina', 'chile', 'peru'];
+    
+    for (let country of countries) {
+        if (lowerMsg.includes(country)) {
+            return getCountryInfo(country);
+        }
+    }
+    
     // Basic election responses
     if (lowerMsg.includes('what are elections') || lowerMsg.includes('what is election')) {
         return "🗳️ **What are Elections?**\n\nElections are a formal process where citizens choose their representatives. They are the foundation of democratic societies, allowing peaceful transfer of power and giving people a voice in government.";
     }
     
-    if (lowerMsg.includes('register')) {
-        return "🗳️ **How to Register to Vote:**\n\n1. Check eligibility (18+ in most countries)\n2. Find your local election office\n3. Fill registration form (online or paper)\n4. Provide ID and address proof\n5. Submit before deadline\n6. Receive voter ID card";
+    if (lowerMsg.includes('how does voting work') || lowerMsg.includes('voting process')) {
+        return getVotingProcess();
     }
     
-    if (lowerMsg.includes('voting process') || lowerMsg.includes('how to vote')) {
-        return "🗳️ **Step-by-Step Voting Process:**\n\n**Before Election Day:** Register, find polling station\n**On Election Day:** Show ID, get ballot, vote privately\n**After Voting:** Your vote is counted with others";
+    if (lowerMsg.includes('register')) {
+        return "🗳️ **How to Register to Vote:**\n\n1. Check eligibility (18+ in most countries)\n2. Find your local election office\n3. Fill registration form (online or paper)\n4. Provide ID and address proof\n5. Submit before deadline\n6. Receive voter ID card";
     }
     
     if (lowerMsg.includes('timeline')) {
@@ -158,7 +169,41 @@ function getResponse(message) {
     }
     
     // Default response
-    return `🗳️ I can help with:\n• What elections are\n• How to register to vote\n• Voting process\n• Election timelines\n• Age eligibility\n• Government types across 7 continents\n\nWhat would you like to know?`;
+    return `🗳️ I can help with:\n• What elections are\n• How to register to vote\n• Voting process\n• Election timelines\n• Age eligibility\n• Government types across 7 continents\n\nTry asking: "Election rules in India" or "Government types in Asia"`;
+}
+
+function getVotingProcess() {
+    return `🗳️ **Step-by-Step Voting Process:**\n\n**Before Election Day:**\n• Register to vote before deadline\n• Find your assigned polling station\n• Check what ID you need to bring\n\n**On Election Day:**\n• Go to your polling station\n• Show your ID and voter card\n• Receive your ballot paper\n• Go to a private voting booth\n• Mark your choice clearly\n• Fold and deposit ballot in the box\n\n**After Voting:**\n• Get your finger marked (in many countries)\n• Your vote is counted with others\n• Results announced after counting`;
+}
+
+function getCountryInfo(country) {
+    const countryData = {
+        'south korea': `🗳️ **Election Rules of South Korea:**\n\n• Voting age: 18 years (lowered from 19 in 2020)\n• Managed by National Election Commission (NEC)\n• Voting hours: 6 AM to 6 PM\n• Electronic voting systems used\n• Presidential elections every 5 years\n• National Assembly elections every 4 years\n• Overseas voting available\n• Election day is a national holiday`,
+        
+        'korea': `🗳️ **Election Rules of South Korea:**\n\n• Voting age: 18 years\n• Managed by National Election Commission (NEC)\n• Presidential elections every 5 years\n• National Assembly elections every 4 years\n• Election day is a national holiday`,
+        
+        'brazil': `🗳️ **Election Rules of Brazil:**\n\n• Voting age: 16 years (optional), 18-70 (mandatory)\n• Fully electronic voting nationwide\n• Presidential elections every 4 years\n• Runoff system if no candidate gets 50%+\n• Voting is mandatory for citizens 18-70\n• Biometric voter identification system`,
+        
+        'india': `🗳️ **Election Rules of India:**\n\n• Voting age: 18 years\n• Voter ID card (EPIC) required\n• Electronic Voting Machines (EVMs) with VVPAT\n• Managed by Election Commission of India\n• Lok Sabha elections every 5 years\n• World's largest democracy with nearly 1 billion voters`,
+        
+        'usa': `🗳️ **Election Rules of USA:**\n\n• Voting age: 18 years\n• Voter registration required (varies by state)\n• Early voting and mail-in ballots available\n• Election Day: First Tuesday after first Monday in November\n• Electoral College system for President\n• Presidential elections every 4 years`,
+        
+        'canada': `🗳️ **Election Rules of Canada:**\n\n• Voting age: 18 years\n• Voter ID required (one piece of government ID)\n• Elections Canada runs federal elections\n• Advance voting available\n• Fixed election dates every 4 years`,
+        
+        'uk': `🗳️ **Election Rules of United Kingdom:**\n\n• Voting age: 18 years\n• Photo ID now required\n• Register online (takes 5 minutes)\n• Postal voting available\n• General elections every 5 years\n• First-past-the-post voting system`,
+        
+        'germany': `🗳️ **Election Rules of Germany:**\n\n• Voting age: 18 years\n• Mixed-member proportional system\n• Federal elections every 4 years\n• Two votes: one for candidate, one for party\n• Strong election monitoring system`,
+        
+        'australia': `🗳️ **Election Rules of Australia:**\n\n• Voting age: 18 years\n• Compulsory voting (mandatory by law)\n• Preferential voting system\n• Federal elections every 3 years\n• Fine for not voting (~$20 AUD)`
+    };
+    
+    for (let key in countryData) {
+        if (country.toLowerCase().includes(key)) {
+            return countryData[key];
+        }
+    }
+    
+    return `🗳️ **Election information for ${country.charAt(0).toUpperCase() + country.slice(1)}**\n\nI don't have specific rules for this country memorized, but most countries follow common election principles:\n\n• Voting age: 18 years\n• Voter registration required\n• Secret ballot system\n• Regular elections every 4-5 years\n• Independent election commission\n\nFor specific rules, check your country's official Election Commission website!`;
 }
 
 function processResponse(message) {
