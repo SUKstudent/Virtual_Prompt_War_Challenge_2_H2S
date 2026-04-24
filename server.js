@@ -8,17 +8,17 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// CORS configuration - MUST BE FIRST
+// CORS configuration - Allow frontend to call backend
 app.use(cors({
     origin: '*',
-    methods: ['GET', 'POST', 'OPTIONS'],
-    allowedHeaders: ['Content-Type']
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 // Handle preflight requests
-app.options('*', cors()); 
+app.options('*', cors());
+
 // Middleware
-app.use(cors());
 app.use(express.json());
 
 // Initialize Gemini AI
