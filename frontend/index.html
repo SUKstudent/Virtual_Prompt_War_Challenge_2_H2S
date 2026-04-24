@@ -1,17 +1,56 @@
-/* Welcome Header */
-.welcome-header {
-    text-align: center;
-    padding: 30px 20px 20px 20px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>CivicAssist - Election Process Assistant</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Simple Welcome Header (No Robot) -->
+        <div class="welcome-header">
+            <h1>Welcome to CivicAssist</h1>
+            <p class="tagline">Your Smart Guide to Elections & Democracy</p>
+        </div>
 
-.welcome-header h1 {
-    font-size: 2rem;
-    margin-bottom: 8px;
-}
+        <!-- Chat Interface -->
+        <div class="chat-screen">
+            <div class="chat-area" id="chatArea">
+                <div class="message assistant-message">
+                    <div class="bubble">
+                        👋 Hello! I'm CivicAssist, your election process assistant.<br><br>
+                        I can help you understand:<br>
+                        • What elections are<br>
+                        • Who is eligible to vote<br>
+                        • How voter registration works<br>
+                        • How voting is carried out<br>
+                        • Election timelines<br><br>
+                        To get started, please tell me:<br>
+                        📝 <strong>What's your age?</strong>
+                    </div>
+                </div>
+            </div>
 
-.welcome-header .tagline {
-    font-size: 1rem;
-    opacity: 0.9;
-}
+            <div class="quick-actions">
+                <button class="quick-btn" onclick="askQuestion('What are elections?')">❓ What are elections?</button>
+                <button class="quick-btn" onclick="askQuestion('How do I register to vote?')">📝 How to register?</button>
+                <button class="quick-btn" onclick="askQuestion('How does voting work?')">🗳️ Voting process</button>
+                <button class="quick-btn" onclick="askQuestion('What is the election timeline?')">📅 Election timeline</button>
+                <button class="quick-btn" onclick="askQuestion('Am I eligible to vote?')">✅ Check eligibility</button>
+            </div>
+
+            <div class="input-area">
+                <input type="text" id="userInput" placeholder="Ask me anything about elections..." onkeypress="handleKeyPress(event)">
+                <button onclick="sendMessage()">Send</button>
+            </div>
+
+            <div class="feedback-link">
+                📊 Help us improve! <a href="#" onclick="openFeedbackForm(); return false;">Give feedback on CivicAssist</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
