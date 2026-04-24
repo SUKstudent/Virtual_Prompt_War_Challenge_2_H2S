@@ -1,6 +1,6 @@
 let userAge = null;
 let conversationHistory = [];
-const API_URL = 'http://localhost:3000/api/chat';
+const API_URL = 'http://localhost:3000/api/chat';  // CHANGE THIS to your backend URL
 
 function addMessage(text, isUser = false, saveToHistory = true) {
     const chatArea = document.getElementById('chatArea');
@@ -37,8 +37,8 @@ function hideTypingIndicator() {
 }
 
 async function sendToAI(message) {
-    const sendBtn = document.getElementById('sendBtn');
-    sendBtn.disabled = true;
+    const sendBtn = document.querySelector('.input-area button');
+    if (sendBtn) sendBtn.disabled = true;
     showTypingIndicator();
     
     try {
@@ -63,9 +63,9 @@ async function sendToAI(message) {
     } catch (error) {
         hideTypingIndicator();
         console.error('Error:', error);
-        addMessage("Unable to connect to AI service. Please make sure the backend is running on port 3000. 🗳️", false, true);
+        addMessage("Unable to connect to AI service. Please make sure the backend is running. 🗳️", false, true);
     } finally {
-        sendBtn.disabled = false;
+        if (sendBtn) sendBtn.disabled = false;
     }
 }
 
@@ -95,7 +95,7 @@ function handleKeyPress(event) {
 }
 
 function openFeedbackForm() {
-    window.open('https://forms.gle/YOUR_ACTUAL_LINK_HERE', '_blank');
+    window.open('https://forms.gle/Udv1qZTdsv44aVjq9', '_blank');
     addMessage("📝 Thank you for your feedback! It helps make CivicAssist better.", false, true);
 }
 
@@ -108,22 +108,3 @@ function sendMessage() {
     input.value = '';
     setTimeout(() => processResponse(message), 100);
 }
-
-async function checkBackend() {
-    try {
-        const response = await fetch('http://localhost:3000/api/health');
-        if (response.ok) {
-            document.getElementById('statusBar').innerHTML = `
-                <span>✅ AI Connected • Powered by Gemini</span>
-                <a href="#" onclick="openFeedbackForm(); return false;">📊 Give feedback</a>
-            `;
-        }
-    } catch (error) {
-        document.getElementById('statusBar').innerHTML = `
-            <span>⚠️ AI Offline • Run 'npm start' in backend folder</span>
-            <a href="#" onclick="openFeedbackForm(); return false;">📊 Give feedback</a>
-        `;
-    }
-}
-
-setTimeout(checkBackend, 1000);
