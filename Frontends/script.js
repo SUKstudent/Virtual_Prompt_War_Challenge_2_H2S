@@ -96,7 +96,7 @@ function handleKeyPress(event) {
 }
 
 function openFeedbackForm() {
-    window.open('https://forms.gle/YOUR_ACTUAL_LINK_HERE', '_blank');
+    window.open('https://forms.gle/Udv1qZTdsv44aVjq9', '_blank');
     addMessage("📝 Thank you for your feedback! It helps make CivicAssist better.", false, true);
 }
 
