@@ -70,11 +70,22 @@ The assistant takes basic user inputs such as:
 ## ⚙️ Key Features
 
 🧠 Beginner-friendly election explanation
+
 🗳️ Step-by-step voting guidance
+
 🪪 Eligibility awareness system
+
 💬 Interactive conversational flow
+
 🌍 Generalized (country-independent) design
+
+🌍 7 continents coverage with government types
+
+🗳️ Country-specific election rules (India, USA, Brazil, UK, Canada, Germany, Australia, South Korea)
+
 ⚡ Lightweight and fast execution
+
+🎨 Clean Gemini-style user interface
 
 ----
 
@@ -97,9 +108,13 @@ CivicAssist is designed as a global civic education assistant and does not assum
 🔮 Future Scope
 
 1) Country-specific election support
+
 2) Multilingual assistance
+
 3) Voice-based interaction
+
 4) Integration with real election APIs
+
 5) Personalized civic learning paths
 
 ----
