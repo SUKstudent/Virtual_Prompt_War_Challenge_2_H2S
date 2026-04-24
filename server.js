@@ -16,7 +16,7 @@ app.use(express.json());
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
 
-// System prompt to keep AI focused on elections
+// System prompt
 const SYSTEM_PROMPT = `You are CivicAssist, an election education assistant. 
 Your role is to help users understand:
 - What elections are and why they matter
@@ -32,74 +32,20 @@ Guidelines:
 2. Keep responses concise (2-3 paragraphs max)
 3. Use bullet points for clarity when helpful
 4. If asked about non-election topics, politely redirect to election topics
-5. For country/continent-specific rules, provide general information and suggest checking official election commissions
-6. Use emojis sparingly (🗳️ ✅ 📝 🌍) - max 3 per response
+5. Use emojis sparingly (🗳️ ✅ 📝 🌍) - max 3 per response`;
 
-Stay focused on election education only.`;
-
-// ========== ROOT ROUTE (Fixes "Cannot GET /") ==========
+// Root route
 app.get('/', (req, res) => {
-    res.send(`
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <title>CivicAssist API</title>
-            <style>
-                body {
-                    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-                    max-width: 800px;
-                    margin: 50px auto;
-                    padding: 20px;
-                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                    color: white;
-                }
-                .card {
-                    background: rgba(255,255,255,0.1);
-                    border-radius: 20px;
-                    padding: 30px;
-                    backdrop-filter: blur(10px);
-                }
-                h1 { margin-top: 0; }
-                .endpoint {
-                    background: rgba(0,0,0,0.3);
-                    padding: 10px;
-                    border-radius: 10px;
-                    margin: 10px 0;
-                    font-family: monospace;
-                }
-                a {
-                    color: #ffd700;
-                    text-decoration: none;
-                }
-                a:hover { text-decoration: underline; }
-            </style>
-        </head>
-        <body>
-            <div class="card">
-                <h1>🗳️ CivicAssist API</h1>
-                <p>Your AI-powered election education assistant backend is running!</p>
-                
-                <h2>📡 Available Endpoints:</h2>
-                <div class="endpoint">POST /api/chat - Send your election questions</div>
-                <div class="endpoint">GET /api/health - Check API status</div>
-                <div class="endpoint">GET / - This page</div>
-                
-                <h2>📝 Example Usage:</h2>
-                <div class="endpoint">
-                    POST /api/chat<br>
-                    Content-Type: application/json<br>
-                    { "message": "What are election rules of India?" }
-                </div>
-                
-                <p style="margin-top: 30px;">🔗 <a href="/api/health">Check API Health</a></p>
-                <p>✨ Your CivicAssist frontend should connect to this API.</p>
-            </div>
-        </body>
-        </html>
-    `);
+    res.json({ 
+        message: 'CivicAssist API is running!',
+        endpoints: {
+            chat: 'POST /api/chat',
+            health: 'GET /api/health'
+        }
+    });
 });
 
-// Health check endpoint
+// Health check
 app.get('/api/health', (req, res) => {
     res.json({ status: 'ok', message: 'CivicAssist API is running' });
 });
@@ -109,11 +55,10 @@ app.post('/api/chat', async (req, res) => {
     try {
         const { message, userAge, conversationHistory } = req.body;
         
-        // Build context-aware prompt
         let context = SYSTEM_PROMPT + '\n\n';
         
         if (userAge) {
-            context += `User age: ${userAge}. ${userAge >= 18 ? 'User is eligible to vote in most countries.' : 'User is not yet eligible to vote (needs to be 18+).'}\n\n`;
+            context += `User age: ${userAge}. ${userAge >= 18 ? 'User is eligible to vote.' : 'User is not yet eligible to vote (needs to be 18+).'}\n\n`;
         }
         
         if (conversationHistory && conversationHistory.length > 0) {
@@ -126,7 +71,6 @@ app.post('/api/chat', async (req, res) => {
         
         context += `User: ${message}\n\nAssistant:`;
         
-        // Generate response from Gemini
         const result = await model.generateContent(context);
         const response = await result.response;
         const text = response.text();
@@ -136,14 +80,11 @@ app.post('/api/chat', async (req, res) => {
         console.error('Error:', error);
         res.json({ 
             success: false, 
-            response: "I'm having trouble connecting right now. Please try again in a moment. 🗳️" 
+            response: "I'm having trouble connecting right now. Please try again. 🗳️" 
         });
     }
 });
 
-// Start server
 app.listen(PORT, () => {
     console.log(`🚀 CivicAssist backend running on http://localhost:${PORT}`);
-    console.log(`📝 Test the API: http://localhost:${PORT}/api/health`);
-    console.log(`🌍 Root endpoint: http://localhost:${PORT}/`);
 });
