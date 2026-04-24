@@ -37,24 +37,23 @@ function hideTypingIndicator() {
 }
 
 async function sendToAI(message) {
-    const sendBtn = document.querySelector('.input-area button');
-    if (sendBtn) sendBtn.disabled = true;
     showTypingIndicator();
     
+    // Simulate AI response for demo (remove this when backend connects)
+    setTimeout(() => {
+        hideTypingIndicator();
+        addMessage(`🗳️ Thanks for asking: "${message}"\n\nCivicAssist is designed to explain election processes, voter eligibility, registration, voting steps, and timelines. For specific rules in any country or continent, the AI backend would provide detailed, accurate responses.`, false, true);
+    }, 1000);
+    
+    /* === UNCOMMENT THIS WHEN BACKEND IS READY ===
     try {
         const response = await fetch(API_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                message: message,
-                userAge: userAge,
-                conversationHistory: conversationHistory.slice(-10)
-            })
+            body: JSON.stringify({ message, userAge, conversationHistory: conversationHistory.slice(-10) })
         });
-        
         const data = await response.json();
         hideTypingIndicator();
-        
         if (data.success) {
             addMessage(data.response, false, true);
         } else {
@@ -64,9 +63,8 @@ async function sendToAI(message) {
         hideTypingIndicator();
         console.error('Error:', error);
         addMessage("Unable to connect to AI service. Please make sure the backend is running. 🗳️", false, true);
-    } finally {
-        if (sendBtn) sendBtn.disabled = false;
     }
+    */
 }
 
 function processResponse(message) {
@@ -108,3 +106,32 @@ function sendMessage() {
     input.value = '';
     setTimeout(() => processResponse(message), 100);
 }
+
+// Check backend connection on load (optional)
+async function checkBackend() {
+    try {
+        const response = await fetch(API_URL.replace('/chat', '/health'));
+        if (response.ok) {
+            const statusBar = document.getElementById('statusBar');
+            if (statusBar) {
+                statusBar.innerHTML = `
+                    <span>✅ AI Connected • Powered by Gemini</span>
+                    <a href="#" onclick="openFeedbackForm(); return false;">📊 Give feedback</a>
+                `;
+            }
+        }
+    } catch (error) {
+        const statusBar = document.getElementById('statusBar');
+        if (statusBar) {
+            statusBar.innerHTML = `
+                <span>⚠️ AI Offline • Mock mode active</span>
+                <a href="#" onclick="openFeedbackForm(); return false;">📊 Give feedback</a>
+            `;
+        }
+    }
+}
+
+// Run when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    checkBackend();
+});
