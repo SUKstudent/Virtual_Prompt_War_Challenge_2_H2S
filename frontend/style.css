@@ -23,7 +23,6 @@ body {
     overflow: hidden;
 }
 
-/* Welcome Header */
 .welcome-header {
     text-align: center;
     padding: 30px 20px 20px 20px;
@@ -44,7 +43,7 @@ body {
 .chat-screen {
     display: flex;
     flex-direction: column;
-    height: 650px;
+    height: 550px;
 }
 
 .chat-area {
@@ -88,6 +87,8 @@ body {
     border-radius: 18px;
     line-height: 1.5;
     font-size: 14px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
 }
 
 .assistant-message .bubble {
@@ -159,6 +160,11 @@ body {
     font-weight: 500;
 }
 
+.input-area button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
 .feedback-link {
     text-align: center;
     padding: 12px;
@@ -170,6 +176,42 @@ body {
 .feedback-link a {
     color: #667eea;
     text-decoration: none;
+}
+
+.typing-indicator {
+    display: flex;
+    gap: 4px;
+    padding: 12px 18px;
+    background: white;
+    border-radius: 20px;
+    width: fit-content;
+}
+
+.typing-indicator span {
+    width: 8px;
+    height: 8px;
+    background: #999;
+    border-radius: 50%;
+    animation: typing 1.4s infinite;
+}
+
+.typing-indicator span:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.typing-indicator span:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes typing {
+    0%, 60%, 100% {
+        transform: translateY(0);
+        opacity: 0.4;
+    }
+    30% {
+        transform: translateY(-10px);
+        opacity: 1;
+    }
 }
 
 .chat-area::-webkit-scrollbar {
@@ -184,4 +226,19 @@ body {
 .chat-area::-webkit-scrollbar-thumb {
     background: #667eea;
     border-radius: 10px;
+}
+
+@media (max-width: 600px) {
+    .welcome-header h1 {
+        font-size: 1.5rem;
+    }
+    
+    .bubble {
+        max-width: 90%;
+    }
+    
+    .quick-btn {
+        font-size: 10px;
+        padding: 6px 10px;
+    }
 }
