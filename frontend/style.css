@@ -21,22 +21,98 @@ body {
     border-radius: 20px;
     box-shadow: 0 20px 60px rgba(0,0,0,0.3);
     overflow: hidden;
+    min-height: 600px;
 }
 
-.welcome-header {
+/* Welcome Screen */
+.welcome-screen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 600px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 40px 24px;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.welcome-content {
     text-align: center;
-    padding: 30px 20px 20px 20px;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.welcome-content h1 {
+    font-size: 3rem;
+    color: white;
+    margin-bottom: 15px;
+}
+
+.welcome-tagline {
+    font-size: 1.2rem;
+    color: #ffd700;
+    margin-bottom: 20px;
+}
+
+.welcome-description {
+    color: white;
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+
+.welcome-features {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 40px;
+}
+
+.welcome-features span {
+    background: rgba(255,255,255,0.2);
+    padding: 8px 16px;
+    border-radius: 30px;
+    color: white;
+    font-size: 0.85rem;
+    backdrop-filter: blur(5px);
+}
+
+.start-btn {
+    background: white;
+    color: #667eea;
+    border: none;
+    padding: 14px 35px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+}
+
+.start-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+}
+
+/* Chat Header */
+.chat-header {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
+    padding: 20px 24px;
+    text-align: center;
 }
 
-.welcome-header h1 {
-    font-size: 2rem;
-    margin-bottom: 8px;
+.chat-header h1 {
+    font-size: 1.6rem;
+    margin-bottom: 5px;
 }
 
-.welcome-header .tagline {
-    font-size: 1rem;
+.chat-header .tagline {
+    font-size: 0.8rem;
     opacity: 0.9;
 }
 
@@ -229,8 +305,12 @@ body {
 }
 
 @media (max-width: 600px) {
-    .welcome-header h1 {
-        font-size: 1.5rem;
+    .welcome-content h1 {
+        font-size: 2rem;
+    }
+    
+    .welcome-tagline {
+        font-size: 1rem;
     }
     
     .bubble {
