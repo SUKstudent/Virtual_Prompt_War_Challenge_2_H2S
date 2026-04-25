@@ -239,7 +239,7 @@ function handleKeyPress(event) {
 }
 
 function openFeedbackForm() {
-    window.open('https://forms.gle/Udv1qZTdsv44aVjq9', '_blank');
+    window.open('https://forms.gle/GOOGLE_FORMS_LINK', '_blank');
     addMessage("📝 Thank you for your feedback! It helps make CivicAssist better.", false, true);
 }
 
