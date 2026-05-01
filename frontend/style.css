@@ -8,14 +8,12 @@ body {
     align-items: center;
 }
 
-/* BACKGROUND WRAPPER */
 .bg {
     width: 100%;
     display: flex;
     justify-content: center;
 }
 
-/* MAIN CARD */
 .card {
     width: 90%;
     max-width: 900px;
@@ -28,7 +26,6 @@ body {
     box-shadow: 0 20px 50px rgba(0,0,0,0.25);
 }
 
-/* HEADER */
 .header {
     background: linear-gradient(135deg, #667eea, #764ba2);
     color: white;
@@ -46,7 +43,6 @@ body {
     opacity: 0.9;
 }
 
-/* CHAT AREA */
 .chat {
     flex: 1;
     padding: 15px;
@@ -54,7 +50,6 @@ body {
     background: #f6f7fb;
 }
 
-/* BUBBLES */
 .bot, .user {
     max-width: 75%;
     padding: 12px;
@@ -74,7 +69,6 @@ body {
     margin-left: auto;
 }
 
-/* QUICK BUTTONS */
 .chips {
     display: flex;
     flex-wrap: wrap;
@@ -88,21 +82,23 @@ body {
     border: none;
     padding: 7px 12px;
     border-radius: 20px;
-    background: #f0f0f0;
+    background: #667eea;
+    color: white;
     font-size: 12px;
     cursor: pointer;
+    transition: all 0.3s;
 }
 
 .chips button:hover {
-    background: #667eea;
-    color: white;
+    background: #5a67d8;
+    transform: scale(1.02);
 }
 
-/* INPUT */
 .inputBox {
     display: flex;
     padding: 10px;
     border-top: 1px solid #eee;
+    background: white;
 }
 
 input {
@@ -111,6 +107,12 @@ input {
     border-radius: 20px;
     border: 1px solid #ccc;
     outline: none;
+    font-size: 14px;
+}
+
+input:focus {
+    border-color: #667eea;
+    outline: 2px solid rgba(102,126,234,0.3);
 }
 
 button {
@@ -121,12 +123,48 @@ button {
     background: #667eea;
     color: white;
     cursor: pointer;
+    transition: all 0.3s;
 }
 
-/* FOOTER */
+button:hover {
+    background: #5a67d8;
+    transform: scale(1.02);
+}
+
 .footer {
     text-align: center;
     font-size: 12px;
     padding: 8px;
     color: gray;
+    background: white;
+}
+
+/* Mobile Responsive */
+@media (max-width: 600px) {
+    .card {
+        width: 95%;
+        height: 600px;
+    }
+    .chips button {
+        font-size: 10px;
+        padding: 5px 10px;
+    }
+    .title {
+        font-size: 20px;
+    }
+    .subtitle {
+        font-size: 11px;
+    }
+}
+
+/* Accessibility - High Contrast */
+@media (prefers-contrast: high) {
+    .bot, .user {
+        border: 2px solid black;
+    }
+    button {
+        background: black;
+        color: white;
+        border: 1px solid white;
+    }
 }
