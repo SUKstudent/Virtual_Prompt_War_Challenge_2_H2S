@@ -3,14 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CivicAssist</title>
+<title>CivicAssist - Election Education</title>
 <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
 <div class="bg">
-
 <div class="card">
 
     <!-- HEADER -->
@@ -19,14 +17,33 @@
         <div class="subtitle">Your Smart Guide to Elections & Voting</div>
     </div>
 
+    <!-- GOOGLE SIGN IN -->
+    <div id="authSection" style="padding: 10px; text-align: center; background: #f0f0f0;">
+        <button id="googleSignInBtn" style="background:#4285F4; color:white; padding:8px 20px; border:none; border-radius:20px; cursor:pointer;">
+            🔐 Sign in with Google
+        </button>
+        <div id="userInfo" style="display:none;">
+            👋 Welcome, <span id="userName"></span>!
+            <button id="logoutBtn" style="background:#dc3545; padding:5px 15px; margin-left:10px;">Logout</button>
+        </div>
+    </div>
+
+    <!-- PROGRESS BAR -->
+    <div style="padding: 10px 15px; background: white;">
+        <div style="font-size:12px; margin-bottom:5px;">📊 Your Progress</div>
+        <div style="background:#e0e0e0; border-radius:10px; height:8px;">
+            <div id="progressFill" style="background:#4CAF50; border-radius:10px; height:8px; width:0%; transition:width 0.5s;"></div>
+        </div>
+        <div id="progressText" style="font-size:11px; margin-top:5px;">0% Complete</div>
+    </div>
+
     <!-- CHAT -->
     <div id="chatArea" class="chat">
-
         <div class="bot">
             👋 Hello! I'm CivicAssist.<br><br>
-            I help you understand elections, voting process, eligibility, registration and governments worldwide.
+            I help you understand elections, voting process, eligibility, registration and governments worldwide.<br><br>
+            🔐 Please sign in with Google above to save your progress!
         </div>
-
     </div>
 
     <!-- QUICK ACTIONS -->
@@ -41,8 +58,8 @@
 
     <!-- INPUT -->
     <div class="inputBox">
-        <input id="input" placeholder="Ask anything about elections...">
-        <button onclick="send()">Send</button>
+        <input id="input" placeholder="Ask anything about elections..." aria-label="Your question">
+        <button onclick="send()" aria-label="Send message">Send</button>
     </div>
 
     <!-- FOOTER -->
@@ -51,8 +68,80 @@
     </div>
 
 </div>
-
 </div>
+
+<!-- Firebase SDK -->
+<script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
+    import { getFirestore, collection, addDoc, getDocs, query, where } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
+    import { getAuth, GoogleAuthProvider, signInWithPopup, signOut } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
+
+    // YAHAN APNA FIREBASE CONFIG PASTE KARO
+    const firebaseConfig = {
+        apiKey: "AIzaSyD1v7anwIBi_QbNZKKL5RRKIfSnbY9gPCA",
+        authDomain: "civicassist-86aa6.firebaseapp.com",
+        projectId: "civicassist-86aa6",
+        storageBucket: "civicassist-86aa6.firebasestorage.app",
+        messagingSenderId: "789387633882",
+        appId: "1:789387633882:web:5251bf223f92f5b85931e3"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    window.db = getFirestore(app);
+    window.auth = getAuth(app);
+    
+    window.userProgress = 0;
+    
+    // Save progress to Firebase
+    window.saveProgressToFirebase = async function(step) {
+        if(window.currentUser) {
+            await addDoc(collection(window.db, 'userProgress'), {
+                userId: window.currentUser.uid,
+                step: step,
+                timestamp: new Date()
+            });
+            await window.updateProgressDisplay();
+        }
+    };
+    
+    // Update progress display
+    window.updateProgressDisplay = async function() {
+        if(!window.currentUser) return;
+        const q = query(collection(window.db, 'userProgress'), where('userId', '==', window.currentUser.uid));
+        const snapshot = await getDocs(q);
+        const count = snapshot.size;
+        const progressPercent = Math.min(count * 10, 100);
+        const fill = document.getElementById('progressFill');
+        const text = document.getElementById('progressText');
+        if(fill) fill.style.width = progressPercent + '%';
+        if(text) text.innerText = progressPercent + '% Complete • ' + count + ' interactions';
+    };
+    
+    // Google Sign In
+    document.getElementById('googleSignInBtn').onclick = async () => {
+        const provider = new GoogleAuthProvider();
+        try {
+            const result = await signInWithPopup(window.auth, provider);
+            window.currentUser = result.user;
+            document.getElementById('googleSignInBtn').style.display = 'none';
+            document.getElementById('userInfo').style.display = 'block';
+            document.getElementById('userName').innerText = result.user.displayName;
+            await window.updateProgressDisplay();
+            window.addMessage('✅ Signed in successfully! Your progress will be saved.', 'bot');
+        } catch(error) {
+            console.error(error);
+        }
+    };
+    
+    // Logout
+    document.getElementById('logoutBtn').onclick = async () => {
+        await signOut(window.auth);
+        window.currentUser = null;
+        document.getElementById('googleSignInBtn').style.display = 'block';
+        document.getElementById('userInfo').style.display = 'none';
+        window.addMessage('👋 You have been signed out.', 'bot');
+    };
+</script>
 
 <script src="script.js"></script>
 </body>
