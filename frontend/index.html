@@ -8,12 +8,13 @@
 </head>
 <body>
     <div class="container">
+        <!-- Welcome Screen (Visible First) -->
         <div id="welcomeScreen" class="welcome-screen">
             <div class="welcome-content">
                 <h1>🗳️ CivicAssist</h1>
                 <p class="welcome-tagline">Your Smart Guide to Elections & Voting</p>
                 <p class="welcome-description">
-                    Learn about elections, voter eligibility, registration, voting process, and modern voting methods.
+                    Learn about elections, voter eligibility, registration, voting process, and government types across 7 continents.
                 </p>
                 <div class="welcome-features">
                     <span>📖 What are elections?</span>
@@ -21,14 +22,16 @@
                     <span>📝 Registration guide</span>
                     <span>🗳️ Voting process</span>
                     <span>📅 Election timeline</span>
+                    <span>🌍 7 Continents</span>
                     <span>💻 Modern Voting</span>
-                    <span>🔗 Blockchain Voting</span>
                     <span>🇪🇪 Estonia e-Voting</span>
+                    <span>🔗 Blockchain Voting</span>
                 </div>
                 <button id="startBtn" class="start-btn">Start Learning 🚀</button>
             </div>
         </div>
 
+        <!-- Chat Interface (Hidden Initially) -->
         <div id="chatScreen" class="chat-screen hidden">
             <div class="chat-header">
                 <h1>CivicAssist</h1>
@@ -43,9 +46,9 @@
                         • What elections are<br>
                         • Who is eligible to vote<br>
                         • How voter registration works<br>
-                        • How voting is carried out (Traditional & Modern)<br>
-                        • Modern voting methods (E-voting, Blockchain)<br>
+                        • How voting is carried out<br>
                         • Election timelines<br>
+                        • Modern voting methods (E-voting, Blockchain)<br>
                         • Government types across 7 continents<br><br>
                         To get started, please tell me:<br>
                         📝 <strong>What's your age?</strong>
@@ -57,16 +60,21 @@
                 <button class="quick-btn" onclick="askQuestion('What are elections?')">❓ What are elections?</button>
                 <button class="quick-btn" onclick="askQuestion('How to register to vote?')">📝 How to register?</button>
                 <button class="quick-btn" onclick="askQuestion('How does voting work?')">🗳️ Voting process</button>
+                <button class="quick-btn" onclick="askQuestion('Election timeline')">📅 Election timeline</button>
+                <button class="quick-btn" onclick="askQuestion('Government types in Asia')">🌏 Asia governments</button>
+                <button class="quick-btn" onclick="askQuestion('Am I eligible to vote?')">✅ Check eligibility</button>
                 <button class="quick-btn" onclick="askQuestion('What are modern voting methods?')">💻 Modern Voting</button>
                 <button class="quick-btn" onclick="askQuestion('Internet voting in Estonia')">🇪🇪 Estonia e-Voting</button>
                 <button class="quick-btn" onclick="askQuestion('What is blockchain voting?')">🔗 Blockchain Voting</button>
-                <button class="quick-btn" onclick="askQuestion('Election rules in India')">🇮🇳 India elections</button>
-                <button class="quick-btn" onclick="askQuestion('Government types in Asia')">🌏 Asia governments</button>
             </div>
 
             <div class="input-area">
                 <input type="text" id="userInput" placeholder="Ask anything about elections..." onkeypress="handleKeyPress(event)">
                 <button onclick="sendMessage()" id="sendBtn">Send</button>
+            </div>
+
+            <div class="feedback-link">
+                📊 Help us improve! <a href="#" onclick="openFeedbackForm(); return false;">Give feedback on CivicAssist</a>
             </div>
         </div>
     </div>
