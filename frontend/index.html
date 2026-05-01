@@ -78,7 +78,7 @@
         </div>
     </div>
 
-    <!-- QUICK ACTIONS (Dono sets combined) -->
+    <!-- QUICK ACTIONS -->
     <div class="chips">
         <button onclick="ask('What are elections?')">🗳️ What are elections?</button>
         <button onclick="ask('How to register?')">📝 How to register?</button>
@@ -96,13 +96,43 @@
         <button onclick="send()" aria-label="Send message">Send</button>
     </div>
 
+    <!-- FEEDBACK SECTION -->
+    <div class="feedback-section">
+        <div class="feedback-header">
+            <span>📊 Help us improve!</span>
+            <button id="feedbackBtn" class="feedback-btn">Give Feedback</button>
+        </div>
+    </div>
+
     <!-- FOOTER -->
     <div class="footer">
-        📊 Help us improve! Give feedback on CivicAssist
+        Empowering voters • Strengthening democracy
     </div>
 
 </div>
 </div>
+</div>
+
+<!-- FEEDBACK MODAL (Popup) -->
+<div id="feedbackModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>📝 Share Your Feedback</h3>
+            <span class="close">&times;</span>
+        </div>
+        <div class="modal-body">
+            <p>How was your experience with CivicAssist?</p>
+            <div class="rating">
+                <span class="star" data-rating="1">★</span>
+                <span class="star" data-rating="2">★</span>
+                <span class="star" data-rating="3">★</span>
+                <span class="star" data-rating="4">★</span>
+                <span class="star" data-rating="5">★</span>
+            </div>
+            <textarea id="feedbackText" placeholder="Tell us what you liked or how we can improve..." rows="4"></textarea>
+            <button id="submitFeedback" class="submit-feedback-btn">Submit Feedback</button>
+        </div>
+    </div>
 </div>
 
 <!-- Firebase SDK -->
