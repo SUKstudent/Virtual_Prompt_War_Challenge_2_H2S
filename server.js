@@ -5,60 +5,80 @@ const path = require('path');
 require('dotenv').config();
 
 const app = express();
-app.use(cors());
+
+// ✅ CORS setup - sab allow
+app.use(cors({
+    origin: '*',
+    methods: ['GET', 'POST', 'OPTIONS'],
+    allowedHeaders: ['Content-Type']
+}));
+
 app.use(express.json());
 
-// Serve frontend files from "frontend" folder
+// ✅ Serve frontend files
 app.use(express.static(path.join(__dirname, 'frontend')));
 
-// Serve index.html for all other routes (SPA support)
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'frontend', 'index.html'));
+// ✅ Health check endpoint (Render ke liye)
+app.get('/health', (req, res) => {
+    res.json({ status: 'ok', message: 'CivicAssist is running' });
 });
 
-// Initialize Gemini API
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-
-// API endpoint for chat
+// ✅ API endpoint
 app.post('/api/ask', async (req, res) => {
+    console.log('📥 Request received:', req.body.question); // Log for debugging
+    
     try {
         const { question, age, conversationHistory } = req.body;
         
-        console.log(`Question received: ${question}`); // Debug log
+        // ✅ Check if API key exists
+        if (!process.env.GEMINI_API_KEY) {
+            console.error('❌ GEMINI_API_KEY is missing!');
+            return res.json({ 
+                success: false, 
+                reply: '❌ API key missing. Please check Render environment variables.' 
+            });
+        }
         
+        // ✅ Initialize Gemini
+        const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
         const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
         
         const prompt = `You are CivicAssist, a friendly election education AI assistant.
         
 User's age: ${age || 'Not provided'}
 
-Previous conversation: ${JSON.stringify(conversationHistory || [])}
-
 User question: ${question}
 
 INSTRUCTIONS:
 1. Answer ONLY about elections, voting, democracy, and government
-2. If question is not election-related, politely say: "I'm specialized in elections and voting. Please ask me something about elections!"
-3. Keep answers helpful, accurate, and easy to understand
-4. Include modern election methods (e-voting, internet voting, blockchain) when relevant
-5. Use emojis occasionally to be friendly
-6. Be concise but informative (2-3 paragraphs max)`;
+2. Keep answers helpful, accurate, and easy to understand
+3. Use emojis occasionally to be friendly
+4. Be concise (2-3 paragraphs max)`;
 
+        console.log('📤 Calling Gemini API...');
         const result = await model.generateContent(prompt);
         const reply = result.response.text();
+        console.log('✅ Gemini response received');
         
         res.json({ success: true, reply });
+        
     } catch (error) {
-        console.error('Gemini API Error:', error);
+        console.error('❌ Error:', error.message);
         res.json({ 
             success: false, 
-            reply: '❌ Sorry, I encountered an error. Please try again in a moment.' 
+            reply: `❌ Error: ${error.message}. Please try again.` 
         });
     }
 });
 
+// ✅ Serve index.html for all other routes (for SPA)
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'frontend', 'index.html'));
+});
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`CivicAssist server running on port ${PORT}`);
-    console.log(`Serving frontend from: ${path.join(__dirname, 'frontend')}`);
+    console.log(`🚀 CivicAssist server running on port ${PORT}`);
+    console.log(`📂 Serving frontend from: ${path.join(__dirname, 'frontend')}`);
+    console.log(`✅ GEMINI_API_KEY: ${process.env.GEMINI_API_KEY ? 'Set ✓' : 'Missing ✗'}`);
 });
