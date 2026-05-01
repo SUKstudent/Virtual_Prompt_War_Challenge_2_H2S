@@ -60,7 +60,7 @@ async function getGeminiResponse(question) {
             body: JSON.stringify({
                 question: question,
                 age: userAge,
-                conversationHistory: conversationHistory.slice(-10) // Last 10 messages for context
+                conversationHistory: conversationHistory.slice(-10)
             })
         });
         
@@ -73,11 +73,11 @@ async function getGeminiResponse(question) {
         }
     } catch (error) {
         console.error('API Error:', error);
-        return "❌ Network error. Please check if the backend is running on Google Cloud Run.";
+        return "❌ Network error. Please check your connection and try again.";
     }
 }
 
-// Modified processResponse with Gemini API
+// Process response with Gemini API
 async function processResponse(message) {
     // Check if user is providing age
     if (userAge === null && !isNaN(parseInt(message)) && message.match(/^\d+$/)) {
@@ -106,7 +106,7 @@ function handleKeyPress(event) {
 }
 
 function openFeedbackForm() {
-    window.open('https://forms.gle/Udv1qZTdsv44aVjq9', '_blank');
+    window.open('https://forms.gle/YOUR_GOOGLE_FORM_LINK', '_blank');
     addMessage("📝 Thank you for your feedback! It helps make CivicAssist better.", false, true);
 }
 
