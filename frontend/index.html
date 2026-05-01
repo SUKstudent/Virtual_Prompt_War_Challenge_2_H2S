@@ -8,6 +8,33 @@
 </head>
 <body>
 
+<!-- WELCOME PAGE -->
+<div id="welcomePage" class="welcome-container">
+    <div class="welcome-card">
+        <div class="welcome-icon">🗳️</div>
+        <h1 class="welcome-title">CivicAssist</h1>
+        <p class="welcome-subtitle">Your Smart Guide to Elections & Voting</p>
+        <p class="welcome-description">Learn about elections, voter eligibility, registration, voting process, and government types across 7 continents.</p>
+        
+        <div class="features">
+            <div class="feature">🗳️ What are elections?</div>
+            <div class="feature">✅ Eligibility check</div>
+            <div class="feature">📝 Registration guide</div>
+            <div class="feature">🗳️ Voting process</div>
+            <div class="feature">📅 Election timeline</div>
+            <div class="feature">🌍 7 Continents</div>
+            <div class="feature">🤖 AI Chatbot</div>
+            <div class="feature">📊 Progress Tracking</div>
+            <div class="feature">🔐 Google Sign In</div>
+        </div>
+        
+        <button id="getStartedBtn" class="get-started-btn">🚀 Start Learning</button>
+        <p class="welcome-footer">Empowering voters • Strengthening democracy</p>
+    </div>
+</div>
+
+<!-- MAIN APP PAGE -->
+<div id="mainApp" style="display:none;">
 <div class="bg">
 <div class="card">
 
@@ -40,20 +67,27 @@
     <!-- CHAT -->
     <div id="chatArea" class="chat">
         <div class="bot">
-            👋 Hello! I'm CivicAssist.<br><br>
-            I help you understand elections, voting process, eligibility, registration and governments worldwide.<br><br>
+            👋 Hello! I'm CivicAssist, your election process assistant.<br><br>
+            I can help you understand:<br>
+            📌 What elections are<br>
+            📌 Who is eligible to vote<br>
+            📌 How voter registration works<br>
+            📌 Voting process<br>
+            📌 Government types across 7 continents<br><br>
             🔐 Please sign in with Google above to save your progress!
         </div>
     </div>
 
-    <!-- QUICK ACTIONS -->
+    <!-- QUICK ACTIONS (Dono sets combined) -->
     <div class="chips">
-        <button onclick="ask('What are elections?')">What are elections?</button>
-        <button onclick="ask('Voting process')">Voting process</button>
-        <button onclick="ask('How to register?')">How to register?</button>
-        <button onclick="ask('Eligibility')">Eligibility check</button>
-        <button onclick="ask('Election timeline')">Timeline</button>
-        <button onclick="ask('Blockchain voting')">Blockchain voting</button>
+        <button onclick="ask('What are elections?')">🗳️ What are elections?</button>
+        <button onclick="ask('How to register?')">📝 How to register?</button>
+        <button onclick="ask('Voting process')">🗳️ Voting process</button>
+        <button onclick="ask('Eligibility')">✅ Eligibility check</button>
+        <button onclick="ask('Election timeline')">📅 Election timeline</button>
+        <button onclick="ask('Asia governments')">🌏 Asia governments</button>
+        <button onclick="ask('7 continents elections')">🌍 7 Continents</button>
+        <button onclick="ask('Blockchain voting')">🔗 Blockchain voting</button>
     </div>
 
     <!-- INPUT -->
@@ -64,9 +98,10 @@
 
     <!-- FOOTER -->
     <div class="footer">
-        📊 Help us improve • CivicAssist
+        📊 Help us improve! Give feedback on CivicAssist
     </div>
 
+</div>
 </div>
 </div>
 
@@ -74,9 +109,8 @@
 <script type="module">
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
     import { getFirestore, collection, addDoc, getDocs, query, where } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
-    import { getAuth, GoogleAuthProvider, signInWithPopup, signOut } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
+    import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
 
-    // Firebase Configuration
     const firebaseConfig = {
         apiKey: "AIzaSyD1v7anwIBi_QbNZKKL5RRKIfSnbY9gPCA",
         authDomain: "civicassist-86aa6.firebaseapp.com",
@@ -90,9 +124,18 @@
     window.db = getFirestore(app);
     window.auth = getAuth(app);
     
-    window.userProgress = 0;
+    const welcomePage = document.getElementById('welcomePage');
+    const mainApp = document.getElementById('mainApp');
+    const getStartedBtn = document.getElementById('getStartedBtn');
     
-    // Save progress to Firebase
+    welcomePage.style.display = 'flex';
+    mainApp.style.display = 'none';
+    
+    getStartedBtn.onclick = () => {
+        welcomePage.style.display = 'none';
+        mainApp.style.display = 'block';
+    };
+    
     window.saveProgressToFirebase = async function(step) {
         if(window.currentUser) {
             await addDoc(collection(window.db, 'userProgress'), {
@@ -104,7 +147,6 @@
         }
     };
     
-    // Update progress display
     window.updateProgressDisplay = async function() {
         if(!window.currentUser) return;
         const q = query(collection(window.db, 'userProgress'), where('userId', '==', window.currentUser.uid));
@@ -117,7 +159,6 @@
         if(text) text.innerText = progressPercent + '% Complete • ' + count + ' interactions';
     };
     
-    // Google Sign In
     document.getElementById('googleSignInBtn').onclick = async () => {
         const provider = new GoogleAuthProvider();
         try {
@@ -133,7 +174,6 @@
         }
     };
     
-    // Logout
     document.getElementById('logoutBtn').onclick = async () => {
         await signOut(window.auth);
         window.currentUser = null;
@@ -141,6 +181,16 @@
         document.getElementById('userInfo').style.display = 'none';
         window.addMessage('👋 You have been signed out.', 'bot');
     };
+    
+    onAuthStateChanged(window.auth, (user) => {
+        if(user) {
+            window.currentUser = user;
+            document.getElementById('googleSignInBtn').style.display = 'none';
+            document.getElementById('userInfo').style.display = 'block';
+            document.getElementById('userName').innerText = user.displayName;
+            window.updateProgressDisplay();
+        }
+    });
 </script>
 
 <script src="script.js"></script>
