@@ -113,8 +113,7 @@ function getOldVsNewVoting() {
 **Examples:**
 🇮🇳 India - 1M+ EVMs with VVPAT
 🇪🇪 Estonia - World leader in I-Voting
-🇧🇷 Brazil - Fully electronic voting since 1996
-🇨🇭 Switzerland - Experimenting with blockchain`;
+🇧🇷 Brazil - Fully electronic voting since 1996`;
 }
 
 // ✅ Estonia e-Voting
@@ -307,8 +306,7 @@ function getCountryInfo(country) {
 • Early voting and mail-in ballots available
 • Election Day: First Tuesday after first Monday in November
 • Electoral College system for President
-• Presidential elections every 4 years
-• Over 200,000 polling places`,
+• Presidential elections every 4 years`,
 
         'uk': `🗳️ **Election Rules of United Kingdom:**
 
@@ -317,8 +315,7 @@ function getCountryInfo(country) {
 • Register online (takes 5 minutes)
 • Postal voting available
 • General elections every 5 years
-• First-past-the-post voting system
-• 650 constituencies`,
+• First-past-the-post voting system`,
 
         'brazil': `🗳️ **Election Rules of Brazil:**
 
@@ -335,8 +332,7 @@ function getCountryInfo(country) {
 • Mixed-member proportional system
 • Federal elections every 4 years
 • Two votes: one for candidate, one for party
-• Strong election monitoring system
-• Over 60 million eligible voters`,
+• Strong election monitoring system`,
 
         'australia': `🗳️ **Election Rules of Australia:**
 
@@ -345,7 +341,7 @@ function getCountryInfo(country) {
 • Preferential voting system
 • Federal elections every 3 years
 • Fine for not voting (~$20 AUD)
-• Over 90% voter turnout (among world's highest)`
+• Over 90% voter turnout`
     };
     
     for (let key in countryData) {
@@ -437,7 +433,7 @@ function getResponse(message) {
         if (userAge) {
             return userAge >= 18 ? "✅ You are eligible to vote in most countries! Make sure to register before the deadline." : "📝 You need to be 18+ to vote in most countries. You'll be eligible when you turn 18. Until then, learn about elections!";
         } else {
-            return "📝 Please tell me your age first! I'll check your eligibility.";
+            return "📝 Please tell me your age first! Just type your age (like '21') and I'll check your eligibility.";
         }
     }
     
@@ -487,8 +483,9 @@ function handleKeyPress(event) {
     if (event.key === 'Enter') sendMessage();
 }
 
+// ✅ Feedback form with actual link
 function openFeedbackForm() {
-    window.open('https://forms.gle/GOOGLE_FORMS_LINK', '_blank');
+    window.open('https://forms.gle/Udv1qZTdsv44aVjq9', '_blank');
     addMessage("📝 Thank you for your feedback! It helps make CivicAssist better.", false, true);
 }
 
