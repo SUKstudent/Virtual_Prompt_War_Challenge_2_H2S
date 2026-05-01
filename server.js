@@ -60,5 +60,9 @@ app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'frontend', 'index.html'));
 });
 
-// ✅ Vercel serverless export
-module.exports = app;
+// ✅ Railway ke liye - listen on PORT
+const PORT = process.env.PORT || 8080;
+app.listen(PORT, () => {
+    console.log(`🚀 CivicAssist server running on port ${PORT}`);
+    console.log(`✅ GEMINI_API_KEY: ${process.env.GEMINI_API_KEY ? 'Set ✓' : 'Missing ✗'}`);
+});
