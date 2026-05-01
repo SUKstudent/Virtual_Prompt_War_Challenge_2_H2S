@@ -1,6 +1,13 @@
+/* ========== GLOBAL STYLES ========== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: linear-gradient(135deg, #667eea, #764ba2);
     height: 100vh;
     display: flex;
@@ -8,6 +15,118 @@ body {
     align-items: center;
 }
 
+/* ========== WELCOME PAGE STYLES ========== */
+.welcome-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.welcome-card {
+    background: white;
+    border-radius: 30px;
+    padding: 50px 40px;
+    max-width: 600px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+    animation: fadeInUp 0.6s ease;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.welcome-icon {
+    font-size: 80px;
+    margin-bottom: 20px;
+}
+
+.welcome-title {
+    font-size: 42px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 10px;
+}
+
+.welcome-subtitle {
+    font-size: 18px;
+    color: #666;
+    margin-bottom: 15px;
+}
+
+.welcome-description {
+    color: #777;
+    line-height: 1.6;
+    margin-bottom: 30px;
+    font-size: 15px;
+}
+
+.features {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+    margin-bottom: 35px;
+}
+
+.feature {
+    background: linear-gradient(135deg, #f0f0f0, #e8e8e8);
+    padding: 8px 16px;
+    border-radius: 25px;
+    font-size: 13px;
+    color: #667eea;
+    font-weight: 500;
+    transition: all 0.3s;
+}
+
+.feature:hover {
+    transform: translateY(-2px);
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+}
+
+.get-started-btn {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    border: none;
+    padding: 14px 45px;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 5px 15px rgba(102,126,234,0.3);
+}
+
+.get-started-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 25px rgba(102,126,234,0.5);
+}
+
+.welcome-footer {
+    margin-top: 30px;
+    font-size: 12px;
+    color: #aaa;
+}
+
+/* ========== MAIN APP STYLES ========== */
 .bg {
     width: 100%;
     display: flex;
@@ -16,155 +135,233 @@ body {
 
 .card {
     width: 90%;
-    max-width: 900px;
-    height: 650px;
+    max-width: 1000px;
+    height: 700px;
     background: white;
-    border-radius: 20px;
+    border-radius: 25px;
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+    box-shadow: 0 25px 50px rgba(0,0,0,0.25);
 }
 
+/* HEADER */
 .header {
     background: linear-gradient(135deg, #667eea, #764ba2);
     color: white;
     text-align: center;
-    padding: 18px;
+    padding: 20px;
 }
 
 .title {
-    font-size: 24px;
+    font-size: 26px;
     font-weight: bold;
 }
 
 .subtitle {
     font-size: 13px;
     opacity: 0.9;
+    margin-top: 5px;
 }
 
+/* CHAT AREA */
 .chat {
     flex: 1;
-    padding: 15px;
+    padding: 20px;
     overflow-y: auto;
-    background: #f6f7fb;
+    background: #f8f9ff;
 }
 
+/* CHAT BUBBLES */
 .bot, .user {
-    max-width: 75%;
-    padding: 12px;
-    margin: 8px 0;
-    border-radius: 12px;
+    max-width: 80%;
+    padding: 12px 16px;
+    margin: 10px 0;
+    border-radius: 18px;
     font-size: 14px;
-    line-height: 1.4;
+    line-height: 1.5;
+    word-wrap: break-word;
 }
 
 .bot {
     background: #e9e9f3;
+    color: #333;
+    border-bottom-left-radius: 5px;
 }
 
 .user {
-    background: #667eea;
+    background: linear-gradient(135deg, #667eea, #764ba2);
     color: white;
     margin-left: auto;
+    border-bottom-right-radius: 5px;
 }
 
+/* QUICK ACTION BUTTONS */
 .chips {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
-    padding: 10px;
+    gap: 10px;
+    padding: 12px 15px;
     background: white;
     border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
 }
 
 .chips button {
     border: none;
-    padding: 7px 12px;
-    border-radius: 20px;
-    background: #667eea;
+    padding: 8px 16px;
+    border-radius: 25px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
     color: white;
     font-size: 12px;
+    font-weight: 500;
     cursor: pointer;
     transition: all 0.3s;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
 .chips button:hover {
-    background: #5a67d8;
-    transform: scale(1.02);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(102,126,234,0.4);
 }
 
+/* INPUT SECTION */
 .inputBox {
     display: flex;
-    padding: 10px;
-    border-top: 1px solid #eee;
+    padding: 15px;
     background: white;
+    gap: 10px;
 }
 
-input {
+.inputBox input {
     flex: 1;
-    padding: 12px;
-    border-radius: 20px;
-    border: 1px solid #ccc;
+    padding: 12px 18px;
+    border-radius: 30px;
+    border: 1.5px solid #e0e0e0;
     outline: none;
     font-size: 14px;
+    transition: all 0.3s;
 }
 
-input:focus {
+.inputBox input:focus {
     border-color: #667eea;
-    outline: 2px solid rgba(102,126,234,0.3);
+    box-shadow: 0 0 0 3px rgba(102,126,234,0.2);
 }
 
-button {
-    margin-left: 10px;
-    padding: 12px 18px;
+.inputBox button {
+    padding: 12px 25px;
     border: none;
-    border-radius: 20px;
-    background: #667eea;
+    border-radius: 30px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
     color: white;
+    font-weight: bold;
     cursor: pointer;
     transition: all 0.3s;
 }
 
-button:hover {
-    background: #5a67d8;
+.inputBox button:hover {
     transform: scale(1.02);
+    box-shadow: 0 5px 15px rgba(102,126,234,0.4);
 }
 
+/* FOOTER */
 .footer {
     text-align: center;
-    font-size: 12px;
-    padding: 8px;
-    color: gray;
+    font-size: 11px;
+    padding: 10px;
+    color: #999;
     background: white;
+    border-top: 1px solid #eee;
 }
 
-/* Mobile Responsive */
-@media (max-width: 600px) {
+/* ========== RESPONSIVE DESIGN ========== */
+@media (max-width: 768px) {
     .card {
         width: 95%;
-        height: 600px;
+        height: 90vh;
     }
+    
+    .title {
+        font-size: 22px;
+    }
+    
     .chips button {
         font-size: 10px;
-        padding: 5px 10px;
+        padding: 6px 12px;
     }
-    .title {
-        font-size: 20px;
+    
+    .bot, .user {
+        max-width: 90%;
+        font-size: 13px;
     }
-    .subtitle {
+    
+    .welcome-title {
+        font-size: 32px;
+    }
+    
+    .welcome-card {
+        padding: 35px 25px;
+    }
+    
+    .features {
+        gap: 8px;
+    }
+    
+    .feature {
         font-size: 11px;
+        padding: 6px 12px;
     }
 }
 
-/* Accessibility - High Contrast */
+@media (max-width: 480px) {
+    .chips button {
+        font-size: 9px;
+        padding: 5px 10px;
+    }
+    
+    .inputBox button {
+        padding: 10px 18px;
+    }
+    
+    .welcome-icon {
+        font-size: 60px;
+    }
+}
+
+/* ========== ACCESSIBILITY ========== */
 @media (prefers-contrast: high) {
     .bot, .user {
         border: 2px solid black;
     }
-    button {
+    
+    button, .chips button, .get-started-btn {
         background: black;
         color: white;
         border: 1px solid white;
     }
+}
+
+/* Scrollbar Styling */
+.chat::-webkit-scrollbar {
+    width: 6px;
+}
+
+.chat::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.chat::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border-radius: 10px;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.bot, .user {
+    animation: fadeIn 0.3s ease;
 }
