@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>CivicAssist - Election Process Assistant</title>
     <link rel="stylesheet" href="style.css">
+    <script>
+        // 🟡 IMPORTANT: Deploy ke baad iss URL ko apne Google Cloud Run URL se replace karna
+        // Example: https://civicassist-xxxxx-uc.a.run.app
+        const API_BASE_URL = "https://YOUR-GOOGLE-CLOUD-RUN-URL"; 
+    </script>
 </head>
 <body>
     <div class="container">
@@ -23,6 +28,8 @@
                     <span>🗳️ Voting process</span>
                     <span>📅 Election timeline</span>
                     <span>🌍 7 Continents</span>
+                    <span>💻 Modern Voting</span>
+                    <span>🤖 AI Assistant</span>
                 </div>
                 <button id="startBtn" class="start-btn">Start Learning 🚀</button>
             </div>
@@ -32,20 +39,21 @@
         <div id="chatScreen" class="chat-screen hidden">
             <div class="chat-header">
                 <h1>CivicAssist</h1>
-                <p class="tagline">Your Smart Guide to Elections & Voting</p>
+                <p class="tagline">🤖 AI-Powered Election Assistant (Powered by Google Gemini)</p>
             </div>
 
             <div class="chat-area" id="chatArea">
                 <div class="message assistant-message">
                     <div class="bubble">
-                        👋 Hello! I'm CivicAssist, your election process assistant.<br><br>
-                        I can help you understand:<br>
-                        • What elections are<br>
+                        👋 Hello! I'm CivicAssist, your AI-powered election process assistant.<br><br>
+                        I can answer ANY question about:<br>
+                        • What elections are and why they matter<br>
                         • Who is eligible to vote<br>
                         • How voter registration works<br>
-                        • How voting is carried out<br>
-                        • Election timelines<br>
-                        • Government types across 7 continents<br><br>
+                        • How voting is carried out (traditional & modern)<br>
+                        • Election timelines and schedules<br>
+                        • Government types across all countries<br>
+                        • Modern voting methods (E-voting, Blockchain, Internet voting)<br><br>
                         To get started, please tell me:<br>
                         📝 <strong>What's your age?</strong>
                     </div>
@@ -56,13 +64,14 @@
                 <button class="quick-btn" onclick="askQuestion('What are elections?')">❓ What are elections?</button>
                 <button class="quick-btn" onclick="askQuestion('How to register to vote?')">📝 How to register?</button>
                 <button class="quick-btn" onclick="askQuestion('How does voting work?')">🗳️ Voting process</button>
-                <button class="quick-btn" onclick="askQuestion('Election timeline')">📅 Election timeline</button>
-                <button class="quick-btn" onclick="askQuestion('Government types in Asia')">🌏 Asia governments</button>
+                <button class="quick-btn" onclick="askQuestion('What are modern voting methods?')">💻 Modern Voting</button>
+                <button class="quick-btn" onclick="askQuestion('Election rules in India')">🇮🇳 India elections</button>
                 <button class="quick-btn" onclick="askQuestion('Am I eligible to vote?')">✅ Check eligibility</button>
+                <button class="quick-btn" onclick="askQuestion('Internet voting in Estonia')">🇪🇪 Estonia e-Voting</button>
             </div>
 
             <div class="input-area">
-                <input type="text" id="userInput" placeholder="Ask anything about elections..." onkeypress="handleKeyPress(event)">
+                <input type="text" id="userInput" placeholder="Ask ANYTHING about elections..." onkeypress="handleKeyPress(event)">
                 <button onclick="sendMessage()" id="sendBtn">Send</button>
             </div>
 
