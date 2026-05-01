@@ -7,30 +7,40 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
 <div class="container">
 
     <!-- Welcome Screen -->
     <div id="welcomeScreen" class="welcome-screen">
         <div class="welcome-content">
+            
             <h1>🗳️ CivicAssist</h1>
-            <p class="welcome-tagline">Your Smart Guide to Elections & Voting</p>
+
+            <p class="welcome-tagline">
+                Your Smart Guide to Elections & Voting
+            </p>
 
             <p class="welcome-description">
-                Learn about elections, voter eligibility, registration, voting process, and government systems worldwide.
+                Learn about elections, voter eligibility, registration, voting process, election timelines,
+                and government systems across the world — all in one place.
             </p>
 
             <div class="welcome-features">
-                <span>📖 Elections basics</span>
-                <span>🪪 Eligibility check</span>
-                <span>📝 Registration guide</span>
-                <span>🗳️ Voting process</span>
-                <span>📅 Timeline</span>
-                <span>🌍 Global systems</span>
-                <span>💻 Modern voting</span>
-                <span>🔗 Blockchain</span>
+                <span>📖 Elections Basics</span>
+                <span>🪪 Eligibility Check</span>
+                <span>📝 Registration Guide</span>
+                <span>🗳️ Voting Process</span>
+                <span>📅 Election Timeline</span>
+                <span>🌍 Global Governments</span>
+                <span>💻 Modern Voting</span>
+                <span>🇪🇪 Estonia e-Voting</span>
+                <span>🔗 Blockchain Voting</span>
             </div>
 
-            <button id="startBtn" class="start-btn">Start Learning 🚀</button>
+            <button id="startBtn" class="start-btn">
+                Start Learning 🚀
+            </button>
+
         </div>
     </div>
 
@@ -39,25 +49,38 @@
 
         <div class="chat-header">
             <h1>CivicAssist</h1>
-            <p class="tagline">AI-Powered Election Assistant</p>
+            <p class="tagline">
+                AI-powered Election Assistant
+            </p>
         </div>
 
         <div class="chat-area" id="chatArea">
+
             <div class="message assistant-message">
                 <div class="bubble">
                     👋 Hello! I'm CivicAssist.<br><br>
-                    Ask me anything about elections, voting, or governments.<br><br>
-                    👉 Start by telling your age!
+
+                    I can help you understand:
+                    <br>• Elections
+                    <br>• Voting eligibility
+                    <br>• Registration process
+                    <br>• Government systems
+                    <br>• Modern voting tech
+
+                    <br><br>
+                    👉 Tell me your age to begin!
                 </div>
             </div>
+
         </div>
 
         <div class="quick-actions">
-            <button onclick="askQuestion('What are elections?')">❓ Elections</button>
-            <button onclick="askQuestion('Voting process')">🗳️ Voting</button>
-            <button onclick="askQuestion('How to register?')">📝 Register</button>
-            <button onclick="askQuestion('Blockchain voting')">🔗 Blockchain</button>
-            <button onclick="askQuestion('Government in India')">🇮🇳 India</button>
+            <button class="quick-btn" onclick="askQuestion('What are elections?')">❓ Elections</button>
+            <button class="quick-btn" onclick="askQuestion('How to register to vote?')">📝 Register</button>
+            <button class="quick-btn" onclick="askQuestion('Voting process')">🗳️ Voting</button>
+            <button class="quick-btn" onclick="askQuestion('Election timeline')">📅 Timeline</button>
+            <button class="quick-btn" onclick="askQuestion('Government types in Asia')">🌏 Asia</button>
+            <button class="quick-btn" onclick="askQuestion('Blockchain voting')">🔗 Blockchain</button>
         </div>
 
         <div class="input-area">
@@ -68,11 +91,15 @@
                 placeholder="Ask anything about elections..."
                 onkeypress="handleKeyPress(event)"
             >
-            <button onclick="sendMessage()" id="sendBtn">Send</button>
+            <button onclick="sendMessage()" id="sendBtn">
+                Send
+            </button>
         </div>
 
         <div class="feedback-link">
-            📊 <a href="#" onclick="openFeedbackForm()">Give feedback</a>
+            📊 <a href="#" onclick="openFeedbackForm(); return false;">
+                Give feedback
+            </a>
         </div>
 
     </div>
@@ -80,5 +107,6 @@
 </div>
 
 <script src="script.js"></script>
+
 </body>
 </html>
