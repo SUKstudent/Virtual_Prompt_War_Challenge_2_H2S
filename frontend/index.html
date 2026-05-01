@@ -63,18 +63,18 @@ body {
 
 /* MAIN APP */
 .bg { width: 100%; display: flex; justify-content: center; }
-.card { width: 90%; max-width: 950px; height: 680px; background: white; border-radius: 25px; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 25px 50px rgba(0,0,0,0.25); }
+.card { width: 90%; max-width: 950px; height: 700px; background: white; border-radius: 25px; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 25px 50px rgba(0,0,0,0.25); }
 
 .header { background: linear-gradient(135deg, #667eea, #764ba2); color: white; text-align: center; padding: 20px; }
 .title { font-size: 26px; font-weight: bold; }
 .subtitle { font-size: 13px; opacity: 0.9; margin-top: 5px; }
 
 .chat { flex: 1; padding: 20px; overflow-y: auto; background: #f8f9ff; }
-.bot, .user { max-width: 80%; padding: 12px 16px; margin: 10px 0; border-radius: 18px; font-size: 14px; line-height: 1.5; word-wrap: break-word; }
+.bot, .user { max-width: 85%; padding: 12px 16px; margin: 10px 0; border-radius: 18px; font-size: 14px; line-height: 1.5; word-wrap: break-word; white-space: pre-line; }
 .bot { background: #e9e9f3; color: #333; border-bottom-left-radius: 5px; }
 .user { background: linear-gradient(135deg, #667eea, #764ba2); color: white; margin-left: auto; border-bottom-right-radius: 5px; }
 
-.chips { display: flex; flex-wrap: wrap; gap: 10px; padding: 12px 15px; background: white; border-top: 1px solid #eee; border-bottom: 1px solid #eee; }
+.chips { display: flex; flex-wrap: wrap; gap: 10px; padding: 12px 15px; background: white; border-top: 1px solid #eee; border-bottom: 1px solid #eee; max-height: 120px; overflow-y: auto; }
 .chips button { border: none; padding: 8px 16px; border-radius: 25px; background: linear-gradient(135deg, #667eea, #764ba2); color: white; font-size: 12px; font-weight: 500; cursor: pointer; transition: all 0.3s; }
 .chips button:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(102,126,234,0.4); }
 
@@ -159,7 +159,7 @@ body {
     </div>
 
     <div id="authSection" style="padding: 10px; text-align: center; background: #f0f0f0;">
-        <button id="googleSignInBtn" style="background:#4285F4; color:white; padding:8px 20px; border:none; border-radius:20px; cursor:pointer;">
+        <button id="googleSignInBtn" style="background:#4285F4; color:white; padding:8px 20px; border:none; border-radius:20px; cursor:pointer; font-size:14px;">
             🔐 Sign in with Google
         </button>
         <div id="userInfo" style="display:none;">
@@ -195,8 +195,13 @@ body {
         <button onclick="ask('Voting process')">🗳️ Voting process</button>
         <button onclick="ask('Eligibility')">✅ Eligibility check</button>
         <button onclick="ask('Election timeline')">📅 Election timeline</button>
-        <button onclick="ask('Asia governments')">🌏 Asia governments</button>
         <button onclick="ask('7 continents elections')">🌍 7 Continents</button>
+        <button onclick="ask('Asia elections')">🌏 Asia Elections</button>
+        <button onclick="ask('Europe elections')">🇪🇺 Europe Elections</button>
+        <button onclick="ask('Africa elections')">🌍 Africa Elections</button>
+        <button onclick="ask('North America elections')">🇺🇸 North America</button>
+        <button onclick="ask('South America elections')">🦙 South America</button>
+        <button onclick="ask('Australia elections')">🇦🇺 Australia</button>
         <button onclick="ask('Blockchain voting')">🔗 Blockchain voting</button>
     </div>
 
@@ -274,27 +279,32 @@ body {
     
     window.saveProgressToFirebase = async function(step) {
         if(window.currentUser) {
-            await addDoc(collection(window.db, 'userProgress'), {
-                userId: window.currentUser.uid,
-                step: step,
-                timestamp: new Date()
-            });
-            await window.updateProgressDisplay();
+            try {
+                await addDoc(collection(window.db, 'userProgress'), {
+                    userId: window.currentUser.uid,
+                    step: step,
+                    timestamp: new Date()
+                });
+                await window.updateProgressDisplay();
+            } catch(e) { console.log("Progress save error:", e); }
         }
     };
     
     window.updateProgressDisplay = async function() {
         if(!window.currentUser) return;
-        const q = query(collection(window.db, 'userProgress'), where('userId', '==', window.currentUser.uid));
-        const snapshot = await getDocs(q);
-        const count = snapshot.size;
-        const progressPercent = Math.min(count * 10, 100);
-        const fill = document.getElementById('progressFill');
-        const text = document.getElementById('progressText');
-        if(fill) fill.style.width = progressPercent + '%';
-        if(text) text.innerText = progressPercent + '% Complete • ' + count + ' interactions';
+        try {
+            const q = query(collection(window.db, 'userProgress'), where('userId', '==', window.currentUser.uid));
+            const snapshot = await getDocs(q);
+            const count = snapshot.size;
+            const progressPercent = Math.min(count * 10, 100);
+            const fill = document.getElementById('progressFill');
+            const text = document.getElementById('progressText');
+            if(fill) fill.style.width = progressPercent + '%';
+            if(text) text.innerText = progressPercent + '% Complete • ' + count + ' interactions';
+        } catch(e) { console.log("Progress display error:", e); }
     };
     
+    // Google Sign In - REAL GOOGLE LOGIN
     document.getElementById('googleSignInBtn').onclick = async () => {
         const provider = new GoogleAuthProvider();
         try {
@@ -306,10 +316,12 @@ body {
             await window.updateProgressDisplay();
             addMessage('✅ Signed in successfully! Your progress will be saved.', 'bot');
         } catch(error) {
-            console.error(error);
+            console.error("Sign in error:", error);
+            addMessage('❌ Sign in failed: ' + error.message, 'bot');
         }
     };
     
+    // Logout
     document.getElementById('logoutBtn').onclick = async () => {
         await signOut(window.auth);
         window.currentUser = null;
@@ -318,6 +330,7 @@ body {
         addMessage('👋 You have been signed out.', 'bot');
     };
     
+    // Check if already signed in
     onAuthStateChanged(window.auth, (user) => {
         if(user) {
             window.currentUser = user;
@@ -331,6 +344,7 @@ body {
     function addMessage(text, type) {
         const div = document.createElement("div");
         div.className = type;
+        div.style.whiteSpace = "pre-line";
         div.innerHTML = text;
         document.getElementById("chatArea").appendChild(div);
         document.getElementById("chatArea").scrollTop = 99999;
@@ -351,7 +365,7 @@ body {
         }
 
         setTimeout(() => {
-            addMessage("🗳️ CivicAssist: " + generateResponse(sanitizedText), "bot");
+            addMessage(generateResponse(sanitizedText), "bot");
         }, 400);
 
         input.value = "";
@@ -368,36 +382,76 @@ body {
 
     function generateResponse(msg) {
         msg = msg.toLowerCase();
-        
-        if(msg.includes("election") && msg.includes("what")) {
-            return "Elections are a democratic process where citizens choose their representatives. 📝 This happens across all 7 continents!";
+
+        // 7 CONTINENTS
+        if (msg.includes("7 continents") || (msg.includes("continents") && msg.includes("election"))) {
+            return "🌍 *Elections Across 7 Continents:*\n\n" +
+                   "1️⃣ North America — USA (Presidential), Canada (Federal), Mexico\n" +
+                   "2️⃣ South America — Brazil, Argentina, Chile (Presidential & General)\n" +
+                   "3️⃣ Europe — EU Parliament (every 5 years), UK, France, Germany\n" +
+                   "4️⃣ Asia — India (Lok Sabha), Japan, South Korea, Indonesia\n" +
+                   "5️⃣ Africa — South Africa, Nigeria, Kenya (National elections)\n" +
+                   "6️⃣ Australia — Federal elections every 3 years (voting is compulsory!)\n" +
+                   "7️⃣ Antarctica — No native population, so no elections ❄️";
         }
-        if(msg.includes("vote") && msg.includes("how")) {
-            return "To vote: 1️⃣ Register 2️⃣ Find polling station 3️⃣ Bring ID 4️⃣ Cast your vote 🗳️";
+
+        if (msg.includes("asia") && msg.includes("election")) {
+            return "🌏 *Asia Elections:*\n\n• 🇮🇳 India — Lok Sabha every 5 years\n• 🇯🇵 Japan — House of Representatives\n• 🇰🇷 South Korea — Presidential elections\n• 🇮🇩 Indonesia — Presidential & Legislative\n• 🇵🇰 Pakistan — National Assembly elections";
         }
-        if(msg.includes("register")) {
-            return "Register online through Election Commission website, offline at voter registration centers, or via mobile app. 📱";
+
+        if (msg.includes("europe") && msg.includes("election")) {
+            return "🇪🇺 *Europe Elections:*\n\n• 🇪🇺 EU Parliament — Every 5 years\n• 🇬🇧 UK — General elections\n• 🇫🇷 France — Presidential (2 rounds)\n• 🇩🇪 Germany — Federal (Bundestag)\n• 🇮🇹 Italy — General elections";
         }
-        if(msg.includes("eligibility")) {
-            return "Voter eligibility: ✅ Must be 18+ years ✅ Citizen ✅ Valid ID ✅ Registered to vote.";
+
+        if (msg.includes("africa") && msg.includes("election")) {
+            return "🌍 *Africa Elections:*\n\n• 🇿🇦 South Africa — National & Provincial\n• 🇳🇬 Nigeria — Presidential & National Assembly\n• 🇰🇪 Kenya — General elections\n• 🇪🇬 Egypt — Presidential elections\n• 🇬🇭 Ghana — General elections every 4 years";
         }
-        if(msg.includes("timeline")) {
-            return "📅 Election timeline: 1. Announcement 2. Filing 3. Campaigning 4. Voting 5. Counting 6. Results.";
+
+        if (msg.includes("north america") && msg.includes("election")) {
+            return "🇺🇸🇨🇦 *North America Elections:*\n\n• 🇺🇸 USA — Presidential (every 4 years) + Midterms\n• 🇨🇦 Canada — Federal elections\n• 🇲🇽 Mexico — General elections\n• 🇨🇺 Cuba — National Assembly elections";
         }
-        if(msg.includes("7 continents") || msg.includes("continents")) {
-            return "🌍 Elections happen across all 7 continents! North America, South America, Europe, Asia, Africa, Australia, Antarctica.";
+
+        if (msg.includes("south america") && msg.includes("election")) {
+            return "🦙 *South America Elections:*\n\n• 🇧🇷 Brazil — Presidential (2 rounds)\n• 🇦🇷 Argentina — General elections\n• 🇨🇱 Chile — Presidential elections\n• 🇨🇴 Colombia — Presidential & Congress\n• 🇵🇪 Peru — General elections";
         }
-        if(msg.includes("asia governments")) {
-            return "🌏 Asia: India (democracy), China (single-party), Japan (constitutional monarchy), South Korea (presidential republic).";
+
+        if (msg.includes("australia") && msg.includes("election")) {
+            return "🇦🇺 *Australia Elections:*\n\n• Federal elections — Every 3 years\n• Voting is COMPULSORY!\n• Preferential voting system\n• House of Representatives + Senate";
         }
-        if(msg.includes("blockchain")) {
-            return "Blockchain voting uses cryptographic security to ensure vote integrity and prevent tampering. 🔗";
+
+        // OTHER FEATURES
+        if (msg.includes("election") && msg.includes("what")) {
+            return "🗳️ *What are Elections?*\n\n1️⃣ Citizens choose their leaders\n2️⃣ Happens at local, state, and national levels\n3️⃣ Democratic process — 'rule by people'\n4️⃣ Conducted across ALL 7 continents\n5️⃣ Free and fair voting is the goal";
         }
-        
-        return "I can help with: 📌 Elections, 📌 Voting, 📌 Registration, 📌 Eligibility, 📌 Timeline, 📌 7 Continents, 📌 Asia governments. What would you like to know?";
+
+        if (msg.includes("vote") && msg.includes("how")) {
+            return "✅ *How to Vote? (Step by Step)*\n\n1️⃣ Register with Election Commission\n2️⃣ Find your polling station\n3️⃣ Carry valid ID proof\n4️⃣ Go to polling booth on election day\n5️⃣ Cast your vote\n6️⃣ Get inked finger 🖐️";
+        }
+
+        if (msg.includes("register")) {
+            return "📝 *How to Register to Vote?*\n\n• 🌐 Online — Election Commission website\n• 📍 Offline — Voter registration centers\n• 📱 Mobile app — Easy registration\n• 📄 Documents: ID proof + Address proof + Photo\n• ✅ Must be 18+ years and citizen";
+        }
+
+        if (msg.includes("eligibility")) {
+            return "✅ *Voter Eligibility Checklist:*\n\n• 🎂 Minimum 18 years of age\n• 🛂 Citizen of the country\n• 🆔 Valid ID proof\n• 📝 Registered to vote\n• 🧠 Mentally sound\n• ⚖️ Not convicted of certain crimes";
+        }
+
+        if (msg.includes("timeline")) {
+            return "📅 *Election Timeline*\n\n1️⃣ Announcement — Dates declared\n2️⃣ Nomination filing — Candidates register\n3️⃣ Campaigning — Rallies, ads, debates\n4️⃣ Voting day — Citizens cast votes 🗳️\n5️⃣ Counting — Votes counted\n6️⃣ Results — Winner announced\n7️⃣ New government takes charge 🏛️";
+        }
+
+        if (msg.includes("asia governments")) {
+            return "🌏 *Government Types in Asia:*\n\n• 🇮🇳 India — Federal Parliamentary Democracy\n• 🇨🇳 China — Single-party state\n• 🇯🇵 Japan — Constitutional Monarchy\n• 🇰🇷 South Korea — Presidential Republic\n• 🇮🇩 Indonesia — Presidential Republic";
+        }
+
+        if (msg.includes("blockchain")) {
+            return "🔗 *Blockchain Voting*\n\n• 🔒 Secure — Votes cannot be tampered\n• 👁️ Transparent — Anyone can verify\n• 📱 Digital — Vote from anywhere\n• 🛡️ Prevents fraud\n• 🌍 Being tested in some countries";
+        }
+
+        return "💬 *I can help you with:*\n\n• 🗳️ What are elections?\n• 📝 How to register to vote?\n• ✅ Voter eligibility check\n• 📅 Election timeline\n• 🌍 7 continents elections\n• 🌏 Asia / 🇪🇺 Europe / 🌍 Africa elections\n• 🔗 Blockchain voting\n\nType your question above! 👆";
     }
 
-    // Feedback functionality
+    // FEEDBACK FUNCTIONALITY
     const modal = document.getElementById('feedbackModal');
     const feedbackBtn = document.getElementById('feedbackBtn');
     const closeBtn = document.querySelector('.close');
