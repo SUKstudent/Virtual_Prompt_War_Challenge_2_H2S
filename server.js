@@ -32,7 +32,8 @@ app.post('/api/ask', async (req, res) => {
         }
         
         const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-        const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
+        // ✅ YAHAN CHANGE KIYA - gemini-pro se gemini-1.5-pro karo
+        const model = genAI.getGenerativeModel({ model: 'gemini-1.5-pro' });
         
         const prompt = `You are CivicAssist, a friendly election education AI assistant.
         
