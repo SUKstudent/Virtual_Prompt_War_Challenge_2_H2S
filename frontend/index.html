@@ -24,7 +24,7 @@
         </button>
         <div id="userInfo" style="display:none;">
             👋 Welcome, <span id="userName"></span>!
-            <button id="logoutBtn" style="background:#dc3545; padding:5px 15px; margin-left:10px;">Logout</button>
+            <button id="logoutBtn" style="background:#dc3545; padding:5px 15px; margin-left:10px; border:none; border-radius:15px; cursor:pointer; color:white;">Logout</button>
         </div>
     </div>
 
@@ -76,7 +76,7 @@
     import { getFirestore, collection, addDoc, getDocs, query, where } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
     import { getAuth, GoogleAuthProvider, signInWithPopup, signOut } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
 
-    // YAHAN APNA FIREBASE CONFIG PASTE KARO
+    // Firebase Configuration
     const firebaseConfig = {
         apiKey: "AIzaSyD1v7anwIBi_QbNZKKL5RRKIfSnbY9gPCA",
         authDomain: "civicassist-86aa6.firebaseapp.com",
