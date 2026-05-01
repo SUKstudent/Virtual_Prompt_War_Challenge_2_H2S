@@ -1,110 +1,132 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
 body {
-    font-family: Arial;
+    margin: 0;
+    font-family: Arial, sans-serif;
     background: linear-gradient(135deg, #667eea, #764ba2);
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
 }
 
-.container {
+/* BACKGROUND WRAPPER */
+.bg {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+/* MAIN CARD */
+.card {
     width: 90%;
     max-width: 900px;
+    height: 650px;
     background: white;
     border-radius: 20px;
     overflow: hidden;
-}
-
-.hidden {
-    display: none;
-}
-
-.welcome-screen {
-    text-align: center;
-    padding: 60px;
-    color: white;
-    background: linear-gradient(135deg, #667eea, #764ba2);
-}
-
-.start-btn {
-    padding: 12px 30px;
-    border: none;
-    border-radius: 25px;
-    background: white;
-    color: #667eea;
-    cursor: pointer;
-}
-
-.chat-screen {
     display: flex;
     flex-direction: column;
-    height: 600px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.25);
 }
 
-.chat-area {
+/* HEADER */
+.header {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    text-align: center;
+    padding: 18px;
+}
+
+.title {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.subtitle {
+    font-size: 13px;
+    opacity: 0.9;
+}
+
+/* CHAT AREA */
+.chat {
     flex: 1;
-    padding: 20px;
+    padding: 15px;
     overflow-y: auto;
-    background: #f5f5f5;
+    background: #f6f7fb;
 }
 
-.message {
-    margin-bottom: 10px;
-}
-
-.bubble {
+/* BUBBLES */
+.bot, .user {
+    max-width: 75%;
     padding: 12px;
-    border-radius: 15px;
-    max-width: 70%;
+    margin: 8px 0;
+    border-radius: 12px;
+    font-size: 14px;
+    line-height: 1.4;
 }
 
-.user-message .bubble {
+.bot {
+    background: #e9e9f3;
+}
+
+.user {
     background: #667eea;
     color: white;
     margin-left: auto;
 }
 
-.assistant-message .bubble {
-    background: #e0e0e0;
-}
-
-.quick-actions {
-    padding: 10px;
+/* QUICK BUTTONS */
+.chips {
     display: flex;
-    gap: 10px;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 10px;
+    background: white;
+    border-top: 1px solid #eee;
 }
 
-.quick-actions button {
-    padding: 8px 12px;
+.chips button {
     border: none;
+    padding: 7px 12px;
     border-radius: 20px;
-    background: #eee;
+    background: #f0f0f0;
+    font-size: 12px;
     cursor: pointer;
 }
 
-.input-area {
+.chips button:hover {
+    background: #667eea;
+    color: white;
+}
+
+/* INPUT */
+.inputBox {
     display: flex;
     padding: 10px;
+    border-top: 1px solid #eee;
 }
 
 input {
     flex: 1;
-    padding: 10px;
+    padding: 12px;
     border-radius: 20px;
     border: 1px solid #ccc;
+    outline: none;
 }
 
 button {
-    padding: 10px 20px;
     margin-left: 10px;
+    padding: 12px 18px;
     border: none;
+    border-radius: 20px;
     background: #667eea;
     color: white;
-    border-radius: 20px;
+    cursor: pointer;
+}
+
+/* FOOTER */
+.footer {
+    text-align: center;
+    font-size: 12px;
+    padding: 8px;
+    color: gray;
 }
