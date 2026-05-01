@@ -4,7 +4,122 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CivicAssist - Election Education</title>
-<link rel="stylesheet" href="style.css">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* WELCOME PAGE */
+.welcome-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.welcome-card {
+    background: white;
+    border-radius: 30px;
+    padding: 40px;
+    max-width: 550px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+    animation: fadeInUp 0.6s ease;
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.welcome-icon { font-size: 80px; margin-bottom: 20px; }
+.welcome-title { font-size: 38px; background: linear-gradient(135deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 10px; }
+.welcome-subtitle { font-size: 18px; color: #666; margin-bottom: 15px; }
+.welcome-description { color: #777; line-height: 1.6; margin-bottom: 30px; }
+
+.features { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 30px; }
+.feature { background: #f0f0f0; padding: 8px 16px; border-radius: 25px; font-size: 13px; color: #667eea; font-weight: 500; transition: all 0.3s; }
+.feature:hover { background: linear-gradient(135deg, #667eea, #764ba2); color: white; transform: translateY(-2px); }
+
+.get-started-btn { background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; padding: 14px 40px; font-size: 18px; border-radius: 40px; cursor: pointer; transition: all 0.3s; box-shadow: 0 5px 15px rgba(102,126,234,0.3); }
+.get-started-btn:hover { transform: scale(1.05); box-shadow: 0 10px 25px rgba(102,126,234,0.5); }
+
+.welcome-footer { margin-top: 30px; font-size: 12px; color: #aaa; }
+
+/* MAIN APP */
+.bg { width: 100%; display: flex; justify-content: center; }
+.card { width: 90%; max-width: 950px; height: 680px; background: white; border-radius: 25px; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 25px 50px rgba(0,0,0,0.25); }
+
+.header { background: linear-gradient(135deg, #667eea, #764ba2); color: white; text-align: center; padding: 20px; }
+.title { font-size: 26px; font-weight: bold; }
+.subtitle { font-size: 13px; opacity: 0.9; margin-top: 5px; }
+
+.chat { flex: 1; padding: 20px; overflow-y: auto; background: #f8f9ff; }
+.bot, .user { max-width: 80%; padding: 12px 16px; margin: 10px 0; border-radius: 18px; font-size: 14px; line-height: 1.5; word-wrap: break-word; }
+.bot { background: #e9e9f3; color: #333; border-bottom-left-radius: 5px; }
+.user { background: linear-gradient(135deg, #667eea, #764ba2); color: white; margin-left: auto; border-bottom-right-radius: 5px; }
+
+.chips { display: flex; flex-wrap: wrap; gap: 10px; padding: 12px 15px; background: white; border-top: 1px solid #eee; border-bottom: 1px solid #eee; }
+.chips button { border: none; padding: 8px 16px; border-radius: 25px; background: linear-gradient(135deg, #667eea, #764ba2); color: white; font-size: 12px; font-weight: 500; cursor: pointer; transition: all 0.3s; }
+.chips button:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(102,126,234,0.4); }
+
+.inputBox { display: flex; padding: 15px; background: white; gap: 10px; }
+.inputBox input { flex: 1; padding: 12px 18px; border-radius: 30px; border: 1.5px solid #e0e0e0; outline: none; font-size: 14px; }
+.inputBox input:focus { border-color: #667eea; box-shadow: 0 0 0 3px rgba(102,126,234,0.2); }
+.inputBox button { padding: 12px 25px; border: none; border-radius: 30px; background: linear-gradient(135deg, #667eea, #764ba2); color: white; font-weight: bold; cursor: pointer; transition: all 0.3s; }
+.inputBox button:hover { transform: scale(1.02); }
+
+.footer { text-align: center; font-size: 11px; padding: 10px; color: #999; background: white; border-top: 1px solid #eee; }
+
+/* FEEDBACK SECTION */
+.feedback-section { padding: 8px 15px; background: #f8f9ff; border-top: 1px solid #eee; }
+.feedback-header { display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: #666; }
+.feedback-btn { background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; padding: 6px 15px; border-radius: 20px; font-size: 11px; cursor: pointer; transition: all 0.3s; }
+.feedback-btn:hover { transform: scale(1.02); }
+
+/* MODAL */
+.modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); animation: fadeIn 0.3s ease; }
+.modal-content { background: white; margin: 15% auto; width: 90%; max-width: 400px; border-radius: 20px; overflow: hidden; animation: slideIn 0.3s ease; }
+@keyframes slideIn { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+.modal-header { background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 15px; display: flex; justify-content: space-between; align-items: center; }
+.modal-header h3 { margin: 0; font-size: 18px; }
+.close { font-size: 28px; font-weight: bold; cursor: pointer; }
+.close:hover { color: #ddd; }
+.modal-body { padding: 20px; }
+.rating { display: flex; justify-content: center; gap: 15px; margin-bottom: 20px; }
+.star { font-size: 35px; cursor: pointer; color: #ddd; transition: all 0.2s; }
+.star.active, .star:hover { color: #ffc107; transform: scale(1.1); }
+#feedbackText { width: 100%; padding: 12px; border: 1.5px solid #e0e0e0; border-radius: 12px; font-family: inherit; font-size: 14px; margin-bottom: 20px; }
+.submit-feedback-btn { width: 100%; background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; padding: 12px; border-radius: 30px; font-size: 16px; font-weight: bold; cursor: pointer; }
+.toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #4CAF50; color: white; padding: 12px 25px; border-radius: 30px; font-size: 14px; z-index: 2001; animation: slideUp 0.3s ease; }
+@keyframes slideUp { from { transform: translateX(-50%) translateY(50px); opacity: 0; } to { transform: translateX(-50%) translateY(0); opacity: 1; } }
+
+/* RESPONSIVE */
+@media (max-width: 600px) {
+    .card { width: 95%; height: 90vh; }
+    .title { font-size: 22px; }
+    .chips button { font-size: 10px; padding: 6px 12px; }
+    .bot, .user { max-width: 90%; font-size: 13px; }
+    .welcome-title { font-size: 28px; }
+    .welcome-card { padding: 30px 20px; }
+    .feature { font-size: 11px; padding: 6px 12px; }
+}
+</style>
 </head>
 <body>
 
@@ -38,13 +153,11 @@
 <div class="bg">
 <div class="card">
 
-    <!-- HEADER -->
     <div class="header">
         <div class="title">🗳️ CivicAssist</div>
         <div class="subtitle">Your Smart Guide to Elections & Voting</div>
     </div>
 
-    <!-- GOOGLE SIGN IN -->
     <div id="authSection" style="padding: 10px; text-align: center; background: #f0f0f0;">
         <button id="googleSignInBtn" style="background:#4285F4; color:white; padding:8px 20px; border:none; border-radius:20px; cursor:pointer;">
             🔐 Sign in with Google
@@ -55,7 +168,6 @@
         </div>
     </div>
 
-    <!-- PROGRESS BAR -->
     <div style="padding: 10px 15px; background: white;">
         <div style="font-size:12px; margin-bottom:5px;">📊 Your Progress</div>
         <div style="background:#e0e0e0; border-radius:10px; height:8px;">
@@ -64,7 +176,6 @@
         <div id="progressText" style="font-size:11px; margin-top:5px;">0% Complete</div>
     </div>
 
-    <!-- CHAT -->
     <div id="chatArea" class="chat">
         <div class="bot">
             👋 Hello! I'm CivicAssist, your election process assistant.<br><br>
@@ -78,7 +189,6 @@
         </div>
     </div>
 
-    <!-- QUICK ACTIONS -->
     <div class="chips">
         <button onclick="ask('What are elections?')">🗳️ What are elections?</button>
         <button onclick="ask('How to register?')">📝 How to register?</button>
@@ -90,13 +200,11 @@
         <button onclick="ask('Blockchain voting')">🔗 Blockchain voting</button>
     </div>
 
-    <!-- INPUT -->
     <div class="inputBox">
         <input id="input" placeholder="Ask anything about elections..." aria-label="Your question">
         <button onclick="send()" aria-label="Send message">Send</button>
     </div>
 
-    <!-- FEEDBACK SECTION -->
     <div class="feedback-section">
         <div class="feedback-header">
             <span>📊 Help us improve!</span>
@@ -104,7 +212,6 @@
         </div>
     </div>
 
-    <!-- FOOTER -->
     <div class="footer">
         Empowering voters • Strengthening democracy
     </div>
@@ -113,7 +220,7 @@
 </div>
 </div>
 
-<!-- FEEDBACK MODAL (Popup) -->
+<!-- FEEDBACK MODAL -->
 <div id="feedbackModal" class="modal">
     <div class="modal-content">
         <div class="modal-header">
@@ -135,7 +242,6 @@
     </div>
 </div>
 
-<!-- Firebase SDK -->
 <script type="module">
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
     import { getFirestore, collection, addDoc, getDocs, query, where } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
@@ -198,7 +304,7 @@
             document.getElementById('userInfo').style.display = 'block';
             document.getElementById('userName').innerText = result.user.displayName;
             await window.updateProgressDisplay();
-            window.addMessage('✅ Signed in successfully! Your progress will be saved.', 'bot');
+            addMessage('✅ Signed in successfully! Your progress will be saved.', 'bot');
         } catch(error) {
             console.error(error);
         }
@@ -209,7 +315,7 @@
         window.currentUser = null;
         document.getElementById('googleSignInBtn').style.display = 'block';
         document.getElementById('userInfo').style.display = 'none';
-        window.addMessage('👋 You have been signed out.', 'bot');
+        addMessage('👋 You have been signed out.', 'bot');
     };
     
     onAuthStateChanged(window.auth, (user) => {
@@ -221,8 +327,133 @@
             window.updateProgressDisplay();
         }
     });
+
+    function addMessage(text, type) {
+        const div = document.createElement("div");
+        div.className = type;
+        div.innerHTML = text;
+        document.getElementById("chatArea").appendChild(div);
+        document.getElementById("chatArea").scrollTop = 99999;
+    }
+
+    window.addMessage = addMessage;
+
+    function send() {
+        const input = document.getElementById("input");
+        const text = input.value.trim();
+        if (!text) return;
+
+        addMessage(text, "user");
+        const sanitizedText = text.replace(/[<>]/g, '');
+        
+        if(window.currentUser && window.saveProgressToFirebase) {
+            window.saveProgressToFirebase(sanitizedText.substring(0, 50));
+        }
+
+        setTimeout(() => {
+            addMessage("🗳️ CivicAssist: " + generateResponse(sanitizedText), "bot");
+        }, 400);
+
+        input.value = "";
+    }
+
+    window.send = send;
+
+    function ask(q) {
+        document.getElementById("input").value = q;
+        send();
+    }
+
+    window.ask = ask;
+
+    function generateResponse(msg) {
+        msg = msg.toLowerCase();
+        
+        if(msg.includes("election") && msg.includes("what")) {
+            return "Elections are a democratic process where citizens choose their representatives. 📝 This happens across all 7 continents!";
+        }
+        if(msg.includes("vote") && msg.includes("how")) {
+            return "To vote: 1️⃣ Register 2️⃣ Find polling station 3️⃣ Bring ID 4️⃣ Cast your vote 🗳️";
+        }
+        if(msg.includes("register")) {
+            return "Register online through Election Commission website, offline at voter registration centers, or via mobile app. 📱";
+        }
+        if(msg.includes("eligibility")) {
+            return "Voter eligibility: ✅ Must be 18+ years ✅ Citizen ✅ Valid ID ✅ Registered to vote.";
+        }
+        if(msg.includes("timeline")) {
+            return "📅 Election timeline: 1. Announcement 2. Filing 3. Campaigning 4. Voting 5. Counting 6. Results.";
+        }
+        if(msg.includes("7 continents") || msg.includes("continents")) {
+            return "🌍 Elections happen across all 7 continents! North America, South America, Europe, Asia, Africa, Australia, Antarctica.";
+        }
+        if(msg.includes("asia governments")) {
+            return "🌏 Asia: India (democracy), China (single-party), Japan (constitutional monarchy), South Korea (presidential republic).";
+        }
+        if(msg.includes("blockchain")) {
+            return "Blockchain voting uses cryptographic security to ensure vote integrity and prevent tampering. 🔗";
+        }
+        
+        return "I can help with: 📌 Elections, 📌 Voting, 📌 Registration, 📌 Eligibility, 📌 Timeline, 📌 7 Continents, 📌 Asia governments. What would you like to know?";
+    }
+
+    // Feedback functionality
+    const modal = document.getElementById('feedbackModal');
+    const feedbackBtn = document.getElementById('feedbackBtn');
+    const closeBtn = document.querySelector('.close');
+    const stars = document.querySelectorAll('.star');
+    const submitFeedback = document.getElementById('submitFeedback');
+    const feedbackText = document.getElementById('feedbackText');
+    let selectedRating = 0;
+
+    if(feedbackBtn) {
+        feedbackBtn.onclick = () => { modal.style.display = 'block'; };
+    }
+    if(closeBtn) {
+        closeBtn.onclick = () => { modal.style.display = 'none'; resetModal(); };
+    }
+    window.onclick = (event) => {
+        if(event.target === modal) { modal.style.display = 'none'; resetModal(); }
+    };
+    stars.forEach(star => {
+        star.onclick = () => {
+            selectedRating = parseInt(star.dataset.rating);
+            stars.forEach(s => {
+                const rating = parseInt(s.dataset.rating);
+                if(rating <= selectedRating) s.classList.add('active');
+                else s.classList.remove('active');
+            });
+        };
+    });
+    if(submitFeedback) {
+        submitFeedback.onclick = async () => {
+            if(selectedRating === 0) { alert('Please select a rating!'); return; }
+            const feedback = feedbackText.value.trim();
+            const feedbackData = { rating: selectedRating, feedback: feedback || 'No comment', timestamp: new Date().toISOString(), userId: window.currentUser?.uid || 'anonymous' };
+            let allFeedback = JSON.parse(localStorage.getItem('civicFeedback') || '[]');
+            allFeedback.push(feedbackData);
+            localStorage.setItem('civicFeedback', JSON.stringify(allFeedback));
+            if(window.currentUser && window.db) {
+                try { await addDoc(collection(window.db, 'feedback'), feedbackData); } catch(e) {}
+            }
+            showToast('🙏 Thank you for your feedback!');
+            modal.style.display = 'none';
+            resetModal();
+        };
+    }
+    function resetModal() {
+        selectedRating = 0;
+        stars.forEach(s => s.classList.remove('active'));
+        feedbackText.value = '';
+    }
+    function showToast(message) {
+        const toast = document.createElement('div');
+        toast.className = 'toast';
+        toast.textContent = message;
+        document.body.appendChild(toast);
+        setTimeout(() => { toast.remove(); }, 3000);
+    }
 </script>
 
-<script src="script.js"></script>
 </body>
 </html>
